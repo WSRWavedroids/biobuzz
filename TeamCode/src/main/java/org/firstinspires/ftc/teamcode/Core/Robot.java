@@ -72,6 +72,8 @@ public class Robot {
     }
     public enum UpDown {UP, DOWN}
 
+    public enum BallColor {ANY, ANY_VALID, ALLIANCE, NON_ALLIANCE, YELLOW}
+
     public boolean scanningForTargetTag = false;
 
     public int limelightSideOffsetAngle = 0;

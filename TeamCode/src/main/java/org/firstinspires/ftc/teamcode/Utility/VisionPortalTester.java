@@ -23,6 +23,7 @@ public class VisionPortalTester extends OpMode {
     private VisionPortal portal;
     private WebcamName camera;
 
+
     final static private ColorRange POLLEN = new ColorRange(
             ColorSpace.HSV,
             new Scalar(20, 100, 120),
