@@ -26,7 +26,7 @@ public class VisionPortalTester extends OpMode {
 
     final static private ColorRange POLLEN = new ColorRange(
             ColorSpace.HSV,
-            new Scalar(20, 100, 120),
+            new Scalar(24, 90, 120),
             new Scalar(30, 255, 255)
     );
 
@@ -40,8 +40,8 @@ public class VisionPortalTester extends OpMode {
             .setBlurSize(5)          // Smooth the transitions between different colors in image
 
             // the following options have been added to fill in perimeter holes.
-            .setDilateSize(3)       // Expand blobs to fill any divots on the edges
-            .setErodeSize(3)        // Shrink blobs back to original size
+            .setDilateSize(5)       // Expand blobs to fill any divots on the edges
+            .setErodeSize(5)        // Shrink blobs back to original size
             .setMorphOperationType(ColorBlobLocatorProcessor.MorphOperationType.CLOSING)
 
             .build();
