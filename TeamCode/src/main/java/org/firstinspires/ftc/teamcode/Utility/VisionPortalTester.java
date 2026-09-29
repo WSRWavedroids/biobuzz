@@ -26,25 +26,19 @@ public class VisionPortalTester extends OpMode {
 
     final static private ColorRange POLLEN = new ColorRange(
             ColorSpace.HSV,
-            new Scalar(24, 90, 120),
+            new Scalar(25, 90, 140),
             new Scalar(30, 255, 255)
     );
-
-    ColorBlobLocatorProcessor purpleColorLocator = new ColorBlobLocatorProcessor.Builder()
-            .setTargetColorRange(ColorRange.ARTIFACT_PURPLE)   // Use a predefined color match
-            .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
-            .setRoi(ImageRegion.asUnityCenterCoordinates(-1, 1, 1, -1))
-            .setDrawContours(true)   // Show contours on the Stream Preview
-            .setBoxFitColor(0)       // Disable the drawing of rectangles
-            .setCircleFitColor(Color.rgb(255, 255, 0)) // Draw a circle
-            .setBlurSize(5)          // Smooth the transitions between different colors in image
-
-            // the following options have been added to fill in perimeter holes.
-            .setDilateSize(5)       // Expand blobs to fill any divots on the edges
-            .setErodeSize(5)        // Shrink blobs back to original size
-            .setMorphOperationType(ColorBlobLocatorProcessor.MorphOperationType.CLOSING)
-
-            .build();
+    final static private ColorRange NECTARBLUE = new ColorRange(
+            ColorSpace.HSV,
+            new Scalar(117, 100, 80),
+            new Scalar(120, 255, 255)
+    );
+    final static private ColorRange NECTARRED = new ColorRange(
+            ColorSpace.HSV,
+            new Scalar(-10, 100, 120),
+            new Scalar(10, 255, 255)
+    );
 
     ColorBlobLocatorProcessor yellowColorLocator = new ColorBlobLocatorProcessor.Builder()
             .setTargetColorRange(POLLEN)   // Use a predefined color match
@@ -56,8 +50,40 @@ public class VisionPortalTester extends OpMode {
             .setBlurSize(5)          // Smooth the transitions between different colors in image
 
             // the following options have been added to fill in perimeter holes.
-            .setDilateSize(3)       // Expand blobs to fill any divots on the edges
-            .setErodeSize(3)        // Shrink blobs back to original size
+            .setDilateSize(4)       // Expand blobs to fill any divots on the edges
+            .setErodeSize(4)        // Shrink blobs back to original size
+            .setMorphOperationType(ColorBlobLocatorProcessor.MorphOperationType.CLOSING)
+
+
+            .build();
+    ColorBlobLocatorProcessor blueColorLocator = new ColorBlobLocatorProcessor.Builder()
+            .setTargetColorRange(NECTARBLUE)   // Use a predefined color match
+            .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
+            .setRoi(ImageRegion.asUnityCenterCoordinates(-1, 1, 1, -1))
+            .setDrawContours(true)   // Show contours on the Stream Preview
+            .setBoxFitColor(0)       // Disable the drawing of rectangles
+            .setCircleFitColor(Color.rgb(120, 255, 180)) // Draw a circle
+            .setBlurSize(5)          // Smooth the transitions between different colors in image
+
+            // the following options have been added to fill in perimeter holes.
+            .setDilateSize(4)       // Expand blobs to fill any divots on the edges
+            .setErodeSize(4)        // Shrink blobs back to original size
+            .setMorphOperationType(ColorBlobLocatorProcessor.MorphOperationType.CLOSING)
+
+
+            .build();
+    ColorBlobLocatorProcessor redColorLocator = new ColorBlobLocatorProcessor.Builder()
+            .setTargetColorRange(NECTARRED)   // Use a predefined color match
+            .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
+            .setRoi(ImageRegion.asUnityCenterCoordinates(-1, 1, 1, -1))
+            .setDrawContours(true)   // Show contours on the Stream Preview
+            .setBoxFitColor(0)       // Disable the drawing of rectangles
+            .setCircleFitColor(Color.rgb(0, 255, 0)) // Draw a circle
+            .setBlurSize(5)          // Smooth the transitions between different colors in image
+
+            // the following options have been added to fill in perimeter holes.
+            .setDilateSize(4)       // Expand blobs to fill any divots on the edges
+            .setErodeSize(4)        // Shrink blobs back to original size
             .setMorphOperationType(ColorBlobLocatorProcessor.MorphOperationType.CLOSING)
 
 
@@ -68,26 +94,18 @@ public class VisionPortalTester extends OpMode {
         camera = hardwareMap.get(WebcamName.class, "Camera");
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Camera"))
-                .addProcessor(purpleColorLocator)
                 .addProcessor(yellowColorLocator)
+                .addProcessor(blueColorLocator)
+                .addProcessor(redColorLocator)
                 .setCameraResolution(new Size(320, 240))
                 .build();
     }
 
     @Override
     public void loop() {
-        List<ColorBlobLocatorProcessor.Blob> purpleBlobList = purpleColorLocator.getBlobs();
         List<ColorBlobLocatorProcessor.Blob> yellowBlobList = yellowColorLocator.getBlobs();
-
-        // Filter out small blobs
-        ColorBlobLocatorProcessor.Util.filterByCriteria(
-                ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
-                100, 20000, purpleBlobList);
-
-        // Filter out ones that aren't circles
-        ColorBlobLocatorProcessor.Util.filterByCriteria(
-                ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY,
-                0.6, 1, purpleBlobList);
+        List<ColorBlobLocatorProcessor.Blob> blueBlobList = blueColorLocator.getBlobs();
+        List<ColorBlobLocatorProcessor.Blob> redBlobList = redColorLocator.getBlobs();
 
         ColorBlobLocatorProcessor.Util.filterByCriteria(
                 ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
@@ -98,17 +116,46 @@ public class VisionPortalTester extends OpMode {
                 ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY,
                 0.4, 1, yellowBlobList);
 
-        if (!purpleBlobList.isEmpty()) {
-            telemetry.addLine("Purple:");
-            for (ColorBlobLocatorProcessor.Blob ball : purpleBlobList) {
+
+        if (!yellowBlobList.isEmpty()) {
+            telemetry.addLine("Yellow:");
+            for (ColorBlobLocatorProcessor.Blob ball : yellowBlobList) {
                 telemetry.addLine("X: " + ball.getCircle().getX() +
                         " Y: " + ball.getCircle().getY()
                 );
             }
             telemetry.addLine();
         }
-        if (!yellowBlobList.isEmpty()) {
-            telemetry.addLine("Yellow:");
+
+        ColorBlobLocatorProcessor.Util.filterByCriteria(
+                ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
+                50, 20000, blueBlobList);
+
+        // Filter out ones that aren't circles
+        ColorBlobLocatorProcessor.Util.filterByCriteria(
+                ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY,
+                0.4, 1, blueBlobList);
+
+        if (!blueBlobList.isEmpty()) {
+            telemetry.addLine("Blue:");
+            for (ColorBlobLocatorProcessor.Blob ball : yellowBlobList) {
+                telemetry.addLine("X: " + ball.getCircle().getX() +
+                        " Y: " + ball.getCircle().getY()
+                );
+            }
+            telemetry.addLine();
+        }
+
+        ColorBlobLocatorProcessor.Util.filterByCriteria(
+                ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
+                50, 20000, redBlobList);
+
+        // Filter out ones that aren't circles
+        ColorBlobLocatorProcessor.Util.filterByCriteria(
+                ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY,
+                0.4, 1, redBlobList);
+        if (!redBlobList.isEmpty()) {
+            telemetry.addLine("Red:");
             for (ColorBlobLocatorProcessor.Blob ball : yellowBlobList) {
                 telemetry.addLine("X: " + ball.getCircle().getX() +
                         " Y: " + ball.getCircle().getY()
