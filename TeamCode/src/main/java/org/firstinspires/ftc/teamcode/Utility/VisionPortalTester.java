@@ -31,8 +31,8 @@ public class VisionPortalTester extends OpMode {
     );
     final static private ColorRange NECTARBLUE = new ColorRange(
             ColorSpace.HSV,
-            new Scalar(117, 100, 80),
-            new Scalar(120, 255, 255)
+            new Scalar(119, 100, 80),
+            new Scalar(124, 255, 255)
     );
     final static private ColorRange NECTARRED = new ColorRange(
             ColorSpace.HSV,
