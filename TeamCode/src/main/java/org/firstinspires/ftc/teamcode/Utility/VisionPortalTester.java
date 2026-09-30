@@ -23,22 +23,23 @@ public class VisionPortalTester extends OpMode {
     private VisionPortal portal;
     private WebcamName camera;
 
-
     final static private ColorRange POLLEN = new ColorRange(
             ColorSpace.HSV,
-            new Scalar(25, 90, 140),
-            new Scalar(30, 255, 255)
+            new Scalar(27, 60, 130),
+            new Scalar(32, 255, 255)
     );
-    final static private ColorRange NECTARBLUE = new ColorRange(
+    //use built in colors instead for nectar
+    final static private ColorRange NECTAR_BLUE = new ColorRange(
             ColorSpace.HSV,
-            new Scalar(119, 100, 80),
-            new Scalar(124, 255, 255)
+            new Scalar(115, 90, 65),
+            new Scalar(122, 255, 255)
     );
-    final static private ColorRange NECTARRED = new ColorRange(
+    final static private ColorRange NECTAR_RED = new ColorRange(
             ColorSpace.HSV,
-            new Scalar(-10, 100, 120),
-            new Scalar(10, 255, 255)
+            new Scalar(160, 10, 10),
+            new Scalar(20, 255, 255)
     );
+
 
     ColorBlobLocatorProcessor yellowColorLocator = new ColorBlobLocatorProcessor.Builder()
             .setTargetColorRange(POLLEN)   // Use a predefined color match
@@ -46,7 +47,7 @@ public class VisionPortalTester extends OpMode {
             .setRoi(ImageRegion.asUnityCenterCoordinates(-1, 1, 1, -1))
             .setDrawContours(true)   // Show contours on the Stream Preview
             .setBoxFitColor(0)       // Disable the drawing of rectangles
-            .setCircleFitColor(Color.rgb(0, 255, 255)) // Draw a circle
+            .setCircleFitColor(Color.rgb(255, 255, 0)) // Draw a circle
             .setBlurSize(5)          // Smooth the transitions between different colors in image
 
             // the following options have been added to fill in perimeter holes.
@@ -57,12 +58,12 @@ public class VisionPortalTester extends OpMode {
 
             .build();
     ColorBlobLocatorProcessor blueColorLocator = new ColorBlobLocatorProcessor.Builder()
-            .setTargetColorRange(NECTARBLUE)   // Use a predefined color match
+            .setTargetColorRange(ColorRange.BLUE)   // Use a predefined color match
             .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
             .setRoi(ImageRegion.asUnityCenterCoordinates(-1, 1, 1, -1))
             .setDrawContours(true)   // Show contours on the Stream Preview
             .setBoxFitColor(0)       // Disable the drawing of rectangles
-            .setCircleFitColor(Color.rgb(120, 255, 180)) // Draw a circle
+            .setCircleFitColor(Color.rgb(0, 0, 255)) // Draw a circle
             .setBlurSize(5)          // Smooth the transitions between different colors in image
 
             // the following options have been added to fill in perimeter holes.
@@ -73,12 +74,12 @@ public class VisionPortalTester extends OpMode {
 
             .build();
     ColorBlobLocatorProcessor redColorLocator = new ColorBlobLocatorProcessor.Builder()
-            .setTargetColorRange(NECTARRED)   // Use a predefined color match
+            .setTargetColorRange(ColorRange.RED)   // Use a predefined color match
             .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
             .setRoi(ImageRegion.asUnityCenterCoordinates(-1, 1, 1, -1))
             .setDrawContours(true)   // Show contours on the Stream Preview
             .setBoxFitColor(0)       // Disable the drawing of rectangles
-            .setCircleFitColor(Color.rgb(0, 255, 0)) // Draw a circle
+            .setCircleFitColor(Color.rgb(255, 0, 0)) // Draw a circle
             .setBlurSize(5)          // Smooth the transitions between different colors in image
 
             // the following options have been added to fill in perimeter holes.
@@ -109,7 +110,7 @@ public class VisionPortalTester extends OpMode {
 
         ColorBlobLocatorProcessor.Util.filterByCriteria(
                 ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
-                50, 20000, yellowBlobList);
+                100, 20000, yellowBlobList);
 
         // Filter out ones that aren't circles
         ColorBlobLocatorProcessor.Util.filterByCriteria(
@@ -129,7 +130,7 @@ public class VisionPortalTester extends OpMode {
 
         ColorBlobLocatorProcessor.Util.filterByCriteria(
                 ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
-                50, 20000, blueBlobList);
+                100, 20000, blueBlobList);
 
         // Filter out ones that aren't circles
         ColorBlobLocatorProcessor.Util.filterByCriteria(
@@ -138,7 +139,7 @@ public class VisionPortalTester extends OpMode {
 
         if (!blueBlobList.isEmpty()) {
             telemetry.addLine("Blue:");
-            for (ColorBlobLocatorProcessor.Blob ball : yellowBlobList) {
+            for (ColorBlobLocatorProcessor.Blob ball : blueBlobList) {
                 telemetry.addLine("X: " + ball.getCircle().getX() +
                         " Y: " + ball.getCircle().getY()
                 );
@@ -148,7 +149,7 @@ public class VisionPortalTester extends OpMode {
 
         ColorBlobLocatorProcessor.Util.filterByCriteria(
                 ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA,
-                50, 20000, redBlobList);
+                100, 20000, redBlobList);
 
         // Filter out ones that aren't circles
         ColorBlobLocatorProcessor.Util.filterByCriteria(
@@ -156,7 +157,7 @@ public class VisionPortalTester extends OpMode {
                 0.4, 1, redBlobList);
         if (!redBlobList.isEmpty()) {
             telemetry.addLine("Red:");
-            for (ColorBlobLocatorProcessor.Blob ball : yellowBlobList) {
+            for (ColorBlobLocatorProcessor.Blob ball : redBlobList) {
                 telemetry.addLine("X: " + ball.getCircle().getX() +
                         " Y: " + ball.getCircle().getY()
                 );
