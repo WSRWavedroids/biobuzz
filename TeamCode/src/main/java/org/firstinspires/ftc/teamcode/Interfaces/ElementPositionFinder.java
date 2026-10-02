@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.Core;
+package org.firstinspires.ftc.teamcode.Interfaces;
 
-import com.pedropathing.geometry.Pose;
+import org.firstinspires.ftc.teamcode.Core.Robot;
+import org.firstinspires.ftc.teamcode.Core.XYSet;
 
 import java.util.ArrayList;
 

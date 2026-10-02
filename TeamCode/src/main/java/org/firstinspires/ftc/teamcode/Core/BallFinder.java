@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import org.firstinspires.ftc.teamcode.Interfaces.ElementPositionFinder;
+
 import java.util.ArrayList;
 
-public class BallFinder implements ElementPositionFinder{
+public class BallFinder implements ElementPositionFinder {
     Robot robot;
     public ElementFinderCamera[] cameras;
     public BallFinder (Robot robot, ElementFinderCamera... elementFinderCameras) {
