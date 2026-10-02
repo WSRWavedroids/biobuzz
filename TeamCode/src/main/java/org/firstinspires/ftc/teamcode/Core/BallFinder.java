@@ -2,11 +2,12 @@ package org.firstinspires.ftc.teamcode.Core;
 
 import java.util.ArrayList;
 
-public class BallFinder extends ElementPositionFinder{
+public class BallFinder implements ElementPositionFinder{
     Robot robot;
+    public ElementFinderCamera[] cameras;
     public BallFinder (Robot robot, ElementFinderCamera... elementFinderCameras) {
-        super(elementFinderCameras);
         this.robot = robot;
+        cameras = elementFinderCameras;
     }
 
     public static final double POLLENREFERENCE = 0, NECTARREFERANCE = 0; //size at 1-meter distance
