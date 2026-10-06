@@ -33,7 +33,7 @@ public class TemplateLegacyIterativeAuto extends OpMode {
 
     Steps currentStep;
 
-    // Storage keys for blackboard
+    // PuppetStorage keys for blackboard
     public static final String ALLIANCE_KEY = "Alliance";
 
     // TODO set the start pose if needed. Otherwise, this can be safely deleted.

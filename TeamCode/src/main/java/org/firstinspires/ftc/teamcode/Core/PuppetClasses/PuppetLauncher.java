@@ -1,0 +1,23 @@
+package org.firstinspires.ftc.teamcode.Core.PuppetClasses;
+
+import com.bylazar.configurables.annotations.Configurable;
+
+import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
+@Configurable
+public class PuppetLauncher implements Launcher {
+    private static boolean isFiring;
+    @Override
+    public void fire() {
+
+    }
+
+    @Override
+    public boolean isFiring() {
+        return isFiring;
+    }
+
+    @Override
+    public void update() {
+
+    }
+}

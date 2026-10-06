@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 public enum HivePosition {
-    PLACEHOLDER // TODO do this
+    DRIVER_SIDE,
+    OPPOSING_SIDE,
+    TIPPING_DRIVER_SIDE,
+    TIPPING_OPPOSING_SIDE
+
 }
