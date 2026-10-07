@@ -5,7 +5,7 @@ import com.bylazar.configurables.annotations.Configurable;
 import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 @Configurable
 public class PuppetLauncher implements Launcher {
-    private static boolean isFiring;
+    public static boolean isFiring;
     @Override
     public void fire() {
 

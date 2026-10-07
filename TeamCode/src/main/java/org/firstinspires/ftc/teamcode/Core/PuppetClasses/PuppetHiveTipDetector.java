@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Interfaces.HiveTipDetector;
 @Configurable
 public class PuppetHiveTipDetector implements HiveTipDetector {
 
-    static HivePosition hivePosition = DRIVER_SIDE;
+    public static HivePosition hivePosition = DRIVER_SIDE;
 
     @Override
     public void start() {

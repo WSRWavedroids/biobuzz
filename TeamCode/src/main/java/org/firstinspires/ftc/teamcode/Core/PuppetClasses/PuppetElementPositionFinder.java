@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Interfaces.ElementPositionFinder;
 import java.util.ArrayList;
 @Configurable
 public class PuppetElementPositionFinder implements ElementPositionFinder {
-    private static ArrayList<XYSet> XYSet;
+    public static ArrayList<XYSet> XYSet;
     @Override
     public ArrayList<XYSet> getBallPositions(Robot.BallColor targetColor) {
         return XYSet;

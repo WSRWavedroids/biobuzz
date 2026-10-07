@@ -72,7 +72,19 @@ public class Robot {
     }
     public enum UpDown {UP, DOWN}
 
-    public enum BallColor {ANY, ANY_VALID, ALLIANCE, NON_ALLIANCE, YELLOW}
+    public enum BallColor {
+        /// The pollen and any nectar
+        ANY,
+        /// The pollen and the alliance nectar
+        ANY_VALID,
+        /// The alliance-specific nectar
+        ALLIANCE_NECTAR,
+        /// The opposing alliance nectar
+        NON_ALLIANCE_NECTAR,
+        /// Both types of nectar
+        ANY_NECTAR,
+        /// The pollen
+        POLLEN}
 
     public boolean scanningForTargetTag = false;
 

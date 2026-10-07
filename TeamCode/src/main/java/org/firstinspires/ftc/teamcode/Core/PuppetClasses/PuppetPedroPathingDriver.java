@@ -2,14 +2,15 @@ package org.firstinspires.ftc.teamcode.Core.PuppetClasses;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.Interfaces.PedroPathingDriver;
 @Configurable
 public class PuppetPedroPathingDriver implements PedroPathingDriver {
-    static boolean safeToFire = false;
+    public static boolean safeToFire = false;
 
-    static double x, y, heading = 0;
+    public static double x, y, heading = 0;
 
     @Override
     public void start() {
@@ -38,6 +39,7 @@ public class PuppetPedroPathingDriver implements PedroPathingDriver {
 
     @Override
     public PathChain makeChainToPose(Pose targetPose) {
-        return null;
+        // TODO decide on the intended behavior here
+        return new PathChain();
     }
 }
