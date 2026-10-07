@@ -302,6 +302,8 @@ public class ezPID {
             lastError = error;
         }
     }
+
+    public final boolean withinTolerance() {return withinTolerance;}
 }
 
 

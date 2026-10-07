@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Vision.Limelight_Target_Scanner;
@@ -31,11 +32,15 @@ public class Robot {
 
     public VoltageSensor voltageSensor;
 
+    public ezPID frontLauncherWheels;
+    public ezPID backLauncherWheels;
+
     public Telemetry telemetry;
 
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
+    public ElapsedTime runtime;
 
     public DriveMode controlMode;//STANDARD_ROBOT_CENTRIC;
     public IMU.Parameters imuParameters;
@@ -132,6 +137,8 @@ public class Robot {
         randomizationScanner = new Limelight_Randomization_Scanner(this);
 
         if (alliance == null) alliance = Alliance.BLUE;
+
+        runtime = new ElapsedTime();
     }
 
     /**
