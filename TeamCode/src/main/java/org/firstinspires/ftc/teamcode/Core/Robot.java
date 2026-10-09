@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 import org.firstinspires.ftc.teamcode.Vision.Limelight_Target_Scanner;
 import org.firstinspires.ftc.teamcode.Vision.Limelight_Randomization_Scanner;
 
@@ -46,6 +47,8 @@ public class Robot {
     public IMU.Parameters imuParameters;
     public enum patternColors {PPG, GPP, PGP}
     public patternColors pattern;
+
+    public Launcher launcher;
 
     public enum Alliance {
         BLUE(2), RED(1);
@@ -108,6 +111,9 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
+        frontLauncherWheels = hardwareMap.get(ezPID.class, "frontLauncherWheels");
+        backLauncherWheels = hardwareMap.get(ezPID.class, "backLauncherWheels");
+
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
         imuParameters = new IMU.Parameters(
@@ -116,6 +122,9 @@ public class Robot {
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
         );
+
+        launcher = new LauncherTester(this);
+
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         frontLeftDrive.setDirection(REVERSE);
@@ -133,6 +142,7 @@ public class Robot {
         //This is new..
         telemetry.addData("Status", "Initialized");
 
+
         targetScanner = new Limelight_Target_Scanner(this);
         randomizationScanner = new Limelight_Randomization_Scanner(this);
 
@@ -145,7 +155,7 @@ public class Robot {
      * Updates the state of every part of the robot. Should be called once per loop.
      */
     public void update() {
-        //TODO Make this function update the robot states
+        launcher.update();
     }
 
     /**

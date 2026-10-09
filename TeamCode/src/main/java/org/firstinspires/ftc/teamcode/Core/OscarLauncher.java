@@ -33,7 +33,7 @@ public class OscarLauncher implements Launcher {
 
     @Override
     public void update() {
-        robot.frontLauncherWheels.runCalledPID(0);
+        robot.frontLauncherWheels.runCalledPID(0); //TODO actually implement speed target later
         robot.backLauncherWheels.runCalledPID(0);
 
 
@@ -72,7 +72,6 @@ public class OscarLauncher implements Launcher {
                 if (robot.frontLauncherWheels.withinTolerance() && robot.backLauncherWheels.withinTolerance()) {
                     lift();
                 }
-
                 break;
             case LIFT:
                 if (robot.runtime.seconds() - timerStartTime >= NECTAR_FIRE_TIME) {
@@ -85,24 +84,26 @@ public class OscarLauncher implements Launcher {
                 }
                 break;
             case RESET:
-                // todo reset lift, turn off motors, set to standby
+                //TODO reset lift, turn off motors
+                currentState = STANDBY;
                 break;
         }
     }
-
     private void startRevvingMotors() {
+        //TODO set motor speed targets
         timerStartTime = robot.runtime.seconds();
         currentState = REV_MOTOR;
     }
 
+
     private void lift() {
-        // todo Make it lift
+        // TODO Make it lift
         timerStartTime = robot.runtime.seconds();
         currentState = LIFT;
     }
 
     private void adjustForPollen() {
-        // todo Close the servo
+        // TODO Close the servo
         timerStartTime = robot.runtime.seconds();
         currentState = ADJUST_FOR_POLLEN;
     }
