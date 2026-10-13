@@ -21,8 +21,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
-import org.firstinspires.ftc.teamcode.Vision.Limelight_Target_Scanner;
-import org.firstinspires.ftc.teamcode.Vision.Limelight_Randomization_Scanner;
+import org.firstinspires.ftc.teamcode.Interfaces.PedroPathingDriver;
 
 public class Robot {
 
@@ -47,6 +46,7 @@ public class Robot {
     public IMU.Parameters imuParameters;
 
     public Launcher launcher;
+    public PedroPathingDriver pedroDriver;
 
     public enum Alliance {
         BLUE(2), RED(1);
@@ -135,10 +135,6 @@ public class Robot {
 
         //This is new..
         telemetry.addData("Status", "Initialized");
-
-
-        targetScanner = new Limelight_Target_Scanner(this);
-        randomizationScanner = new Limelight_Randomization_Scanner(this);
 
         if (alliance == null) alliance = Alliance.BLUE;
 
