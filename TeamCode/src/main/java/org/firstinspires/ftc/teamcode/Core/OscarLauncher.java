@@ -17,6 +17,7 @@ public class OscarLauncher implements Launcher {
     private boolean triggerLaunch = false;
     private double timerStartTime = 0;
     private FireMode fireMode = NOT_FIRING;
+    private double frontTargetSpeed, backTargetSpeed = 0;
 
     private static final double NECTAR_FIRE_TIME = 1;
     private static final double POLLEN_FIRE_TIME = 1;
@@ -33,8 +34,8 @@ public class OscarLauncher implements Launcher {
 
     @Override
     public void update() {
-        robot.frontLauncherWheels.runCalledPID(0); //TODO actually implement speed target later
-        robot.backLauncherWheels.runCalledPID(0);
+        robot.frontLauncherWheels.runCalledPID(frontTargetSpeed);
+        robot.backLauncherWheels.runCalledPID(backTargetSpeed);
 
 
         switch (currentState) {
@@ -90,7 +91,8 @@ public class OscarLauncher implements Launcher {
         }
     }
     private void startRevvingMotors() {
-        //TODO set motor speed targets
+        frontTargetSpeed = findFrontMotorSpeed();
+        backTargetSpeed = findBackMotorSpeed();
         timerStartTime = robot.runtime.seconds();
         currentState = REV_MOTOR;
     }
