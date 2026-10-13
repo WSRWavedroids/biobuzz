@@ -63,10 +63,6 @@ public class Robot {
 
     public boolean callPartialPedro = true;
 
-    public Limelight_Randomization_Scanner randomizationScanner;
-    public Limelight_Target_Scanner targetScanner;
-
-
     public Panels panels;
 
     public static TelemetryManager panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
