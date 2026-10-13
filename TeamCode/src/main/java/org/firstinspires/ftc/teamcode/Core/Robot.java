@@ -45,8 +45,6 @@ public class Robot {
 
     public DriveMode controlMode;//STANDARD_ROBOT_CENTRIC;
     public IMU.Parameters imuParameters;
-    public enum patternColors {PPG, GPP, PGP}
-    public patternColors pattern;
 
     public Launcher launcher;
 
