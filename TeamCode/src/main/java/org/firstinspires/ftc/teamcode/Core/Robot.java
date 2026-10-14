@@ -12,6 +12,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -22,6 +23,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 import org.firstinspires.ftc.teamcode.Interfaces.PedroPathingDriver;
+import org.firstinspires.ftc.vision.opencv.ColorRange;
 
 public class Robot {
 
@@ -35,7 +37,17 @@ public class Robot {
     public ezPID frontLauncherWheels;
     public ezPID backLauncherWheels;
 
-    public DcMotorEx intakeMotor;
+    public DcMotorEx frontIntakeMotor;
+    public DcMotorEx backIntakeMotor;
+
+    public ColorSensor frontColorSensorOne;
+    public ColorSensor frontColorSensorTwo;
+    public ColorSensor frontColorSensorThree;
+    public ColorSensor frontColorSensorFour;
+    public ColorSensor backColorSensorOne;
+    public ColorSensor backColorSensorTwo;
+    public ColorSensor backColorSensorThree;
+    public ColorSensor backColorSensorFour;
 
     public Telemetry telemetry;
 
@@ -110,7 +122,17 @@ public class Robot {
         frontLauncherWheels = hardwareMap.get(ezPID.class, "frontLauncherWheels");
         backLauncherWheels = hardwareMap.get(ezPID.class, "backLauncherWheels");
 
-        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
+        frontIntakeMotor = hardwareMap.get(DcMotorEx.class, "frontIntakeMotor");
+        backIntakeMotor = hardwareMap.get(DcMotorEx.class, "backIntakeMotor");
+
+        frontColorSensorOne = hardwareMap.get(ColorSensor.class, "frontColorSensorOne");
+        frontColorSensorTwo = hardwareMap.get(ColorSensor.class, "frontColorSensorTwo");
+        frontColorSensorThree = hardwareMap.get(ColorSensor.class, "frontColorSensorThree");
+        frontColorSensorFour = hardwareMap.get(ColorSensor.class, "frontColorSensorFour");
+        backColorSensorOne = hardwareMap.get(ColorSensor.class, "backColorSensorOne");
+        backColorSensorTwo = hardwareMap.get(ColorSensor.class, "backColorSensorTwo");
+        backColorSensorThree = hardwareMap.get(ColorSensor.class, "backColorSensorThree");
+        backColorSensorFour = hardwareMap.get(ColorSensor.class, "backColorSensorFour");
 
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
