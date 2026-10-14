@@ -14,6 +14,11 @@ public class PuppetIntake implements Intake {
     }
 
     @Override
+    public void stop() {
+
+    }
+
+    @Override
     public void update() {
 
     }

@@ -35,6 +35,8 @@ public class Robot {
     public ezPID frontLauncherWheels;
     public ezPID backLauncherWheels;
 
+    public DcMotorEx intakeMotor;
+
     public Telemetry telemetry;
 
     //init and declare war
@@ -107,6 +109,8 @@ public class Robot {
 
         frontLauncherWheels = hardwareMap.get(ezPID.class, "frontLauncherWheels");
         backLauncherWheels = hardwareMap.get(ezPID.class, "backLauncherWheels");
+
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
 
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
