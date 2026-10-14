@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import static org.firstinspires.ftc.teamcode.Core.HivePosition.*;
 import static java.lang.Math.*;
 
 import org.firstinspires.ftc.teamcode.Interfaces.HiveTipDetector;
@@ -9,6 +10,7 @@ public class HiveTipFinder implements HiveTipDetector {
     private final Robot robot;
 
     private static final double HIVE_UP_DISTANCE = 0, HIVE_DOWN_DISTANCE = 0, LEAN_TOLERANCE = 0;
+    double distanceToApriltag, angleToHive, hiveHeight = 0;
 
     @Override
     public void start() {
@@ -17,30 +19,42 @@ public class HiveTipFinder implements HiveTipDetector {
 
     @Override
     public HivePosition getCurrentHivePosition() {
-
-        //TODO get robot angle to hive (pedropathing) and dist to tag (limelight)
-        double distance = 0;
-        double angle = 0;
-        double estimatedHeight = distance * cos(angle);
-        /* if () { //TODO check if it is looking at start side, likely using apriltags
-            if (estimatedHeight > HIVE_UP_DISTANCE - LEAN_TOLERANCE) {
-            //TODO return up position
-            } else if (estimatedHeight < HIVE_DOWN_DISTANCE + LEAN_TOLERANCE){
-            //TODO return down position
+        if (false) { //TODO check if it is actually seeing an apriltag or not
+            //return the most recent hive position
+        }
+        getRobotPositioning();
+        if (true) { //TODO check if it is looking at start side, likely using apriltags
+            if (hiveHeight > HIVE_UP_DISTANCE - LEAN_TOLERANCE) {
+            return DRIVER_SIDE;
+            } else if (hiveHeight < HIVE_DOWN_DISTANCE + LEAN_TOLERANCE){
+            return OPPOSING_SIDE;
             }
         } else {
-            if (estimatedHeight > HIVE_UP_DISTANCE - LEAN_TOLERANCE) {
-            //TODO return down position
-            } else if (estimatedHeight < HIVE_DOWN_DISTANCE + LEAN_TOLERANCE){
-            //TODO return up position
+            if (hiveHeight > HIVE_UP_DISTANCE - LEAN_TOLERANCE) {
+            return OPPOSING_SIDE;
+            } else if (hiveHeight < HIVE_DOWN_DISTANCE + LEAN_TOLERANCE){
+            return DRIVER_SIDE;
             }
-        }*/
+        }
+        //TODO find and return the way it is tipping
+        //if it gets here it is tipping and out of static tolerances
+        //it should be tipping towards the opposite pos of whatever it last was
 
-        return null; //TODO return that it is currently tipping
+        return null;
     }
 
     @Override
     public void update() {
 
+    }
+
+    private void getRobotPositioning() {
+        //TODO get dist to tag (using limelight)
+        distanceToApriltag = 0;
+        //TODO get robot angle to hive (using pedro)
+        //it should know what the target angle is based on the side of the field the robot is on
+        angleToHive = 0;
+        //TODO finish doing maths
+        hiveHeight = distanceToApriltag * cos(angleToHive);
     }
 }
