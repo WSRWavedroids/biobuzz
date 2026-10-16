@@ -16,6 +16,9 @@ public class OscarIntake implements Intake {
     private double timerStartTime = 0;
     private final ArrayList<ColorSensor> frontColorSensors = new ArrayList<ColorSensor>();
     private final ArrayList<ColorSensor> backColorSensors = new ArrayList<>();
+
+    private static final double EMERGENCY_OUTTAKE_TIME = 1;
+
     public OscarIntake(Robot robot) {
         this.robot = robot;
         frontColorSensors.add(robot.frontColorSensorOne);
@@ -48,54 +51,72 @@ public class OscarIntake implements Intake {
     enum IntakeModes {
         STANDBY, INTAKE, OUTTAKE, OUTTAKE_FOR_TIME
     }
-    private IntakeModes currentMode = STANDBY;
+    private IntakeModes currentFrontMode = STANDBY;
+    private IntakeModes currentBackMode = STANDBY;
+
     @Override
     public void intake() {
-        currentMode = INTAKE;
+        currentFrontMode = INTAKE;
+        currentBackMode = INTAKE;
     }
 
     @Override
     public void outtake() {
-        currentMode = OUTTAKE;
+        currentFrontMode = OUTTAKE;
+        currentBackMode = OUTTAKE;
     }
 
     @Override
     public void stop() {
-        currentMode = STANDBY;
+        currentFrontMode = STANDBY;
     }
 
     @Override
     public void update() {
         flagBall();
-        switch (currentMode) {
+        switch (currentFrontMode) {
             case STANDBY:
                 robot.frontIntakeMotor.setVelocity(0);
-                robot.backIntakeMotor.setVelocity(0);
                 break;
             case INTAKE:
                     robot.frontIntakeMotor.setVelocity(3000);
-                    robot.backIntakeMotor.setVelocity(3000);
-                    if (flaggedFrontBall || flaggedBackBall) {
-                        currentMode = OUTTAKE;
+                    if (flaggedFrontBall) {
+                        currentFrontMode = OUTTAKE;
                         timerStartTime = robot.runtime.seconds();
                     }
                 break;
             case OUTTAKE:
+                robot.frontIntakeMotor.setVelocity(-1000);
+                break;
+            case OUTTAKE_FOR_TIME:
                 if (flaggedFrontBall) {
                     robot.frontIntakeMotor.setVelocity(-1000);
-                } else if (robot.runtime.seconds() - timerStartTime >= 1){
-                   currentMode = INTAKE;
+                } else if (robot.runtime.seconds() - timerStartTime >= EMERGENCY_OUTTAKE_TIME) {
+                    currentFrontMode = INTAKE;
                 }
+                break;
+        }
+
+        switch (currentBackMode) {
+            case STANDBY:
+                robot.backIntakeMotor.setVelocity(0);
+                break;
+            case INTAKE:
+                robot.backIntakeMotor.setVelocity(3000);
                 if (flaggedBackBall) {
-                    robot.backIntakeMotor.setVelocity(-1000);
-                } else if (robot.runtime.seconds() - timerStartTime >= 1){
-                    currentMode = INTAKE;
+                    currentFrontMode = OUTTAKE;
+                    timerStartTime = robot.runtime.seconds();
                 }
-                robot.frontIntakeMotor.setVelocity(-1000);
+                break;
+            case OUTTAKE:
                 robot.backIntakeMotor.setVelocity(-1000);
                 break;
             case OUTTAKE_FOR_TIME:
-
+                if (flaggedBackBall) {
+                    robot.backIntakeMotor.setVelocity(-1000);
+                } else if (robot.runtime.seconds() - timerStartTime >= EMERGENCY_OUTTAKE_TIME) {
+                    currentFrontMode = INTAKE;
+                }
                 break;
         }
     }

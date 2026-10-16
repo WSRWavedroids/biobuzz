@@ -21,8 +21,19 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetBallPathChain;
+import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetElementPositionFinder;
+import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetHiveTipDetector;
+import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetIntake;
+import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetPedroPathingDriver;
+import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetStorage;
+import org.firstinspires.ftc.teamcode.Interfaces.BallPathChain;
+import org.firstinspires.ftc.teamcode.Interfaces.ElementPositionFinder;
+import org.firstinspires.ftc.teamcode.Interfaces.HiveTipDetector;
+import org.firstinspires.ftc.teamcode.Interfaces.Intake;
 import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 import org.firstinspires.ftc.teamcode.Interfaces.PedroPathingDriver;
+import org.firstinspires.ftc.teamcode.Interfaces.Storage;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
 
 public class Robot {
@@ -59,8 +70,13 @@ public class Robot {
     public DriveMode controlMode;//STANDARD_ROBOT_CENTRIC;
     public IMU.Parameters imuParameters;
 
+    public BallPathChain ballPathChain;
+    public ElementPositionFinder elementPositionFinder;
+    public HiveTipDetector hiveTipDetector;
+    public Intake intake;
     public Launcher launcher;
-    public PedroPathingDriver pedroDriver;
+    public PedroPathingDriver pedroPathingDriver;
+    public Storage storage;
 
     public enum Alliance {
         BLUE(2), RED(1);
@@ -142,8 +158,15 @@ public class Robot {
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
         );
-
+        ballPathChain = new PuppetBallPathChain(this);
+        elementPositionFinder = new PuppetElementPositionFinder(this);
+        hiveTipDetector = new HiveTipFinder(this);
+        intake = new PuppetIntake(this);
         launcher = new LauncherTester(this);
+        pedroPathingDriver = new PuppetPedroPathingDriver(this);
+        storage = new PuppetStorage(this);
+
+
 
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.

@@ -6,6 +6,10 @@ import org.firstinspires.ftc.teamcode.Core.Robot;
 import org.firstinspires.ftc.teamcode.Interfaces.Storage;
 @Configurable
 public class PuppetStorage implements Storage {
+    private final Robot robot;
+    public PuppetStorage(Robot robot) {
+        this.robot = robot;
+    }
     public static int pollenCount, allianceNectarCount, nonAllianceNectarCount = 0;
     @Override
     public int getBallCount(Robot.BallColor color) {

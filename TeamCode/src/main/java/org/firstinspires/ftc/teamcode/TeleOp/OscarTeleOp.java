@@ -69,7 +69,6 @@ public class OscarTeleOp extends OpMode {
 
 
     public static final String ALLIANCE_KEY = "Alliance"; //For blackboard
-    public static final String PATTERN_KEY = "Pattern";
     boolean killSwitchActivated = false;
 
     //static TelemetryManager panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -140,7 +139,7 @@ public class OscarTeleOp extends OpMode {
             robot.alliance = defaultAlliance;
         }
     }
-
+//blib
     /**
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
@@ -170,6 +169,11 @@ public class OscarTeleOp extends OpMode {
         robot.update();
 
         //So Begins the input chain. At least try a bit to organize by driver
+        if (gamepad1.x) {
+
+        } else {
+
+        }
 
         if (robot.controlMode == STANDARD_ROBOT_CENTRIC) {
             singleJoystickDrive();
