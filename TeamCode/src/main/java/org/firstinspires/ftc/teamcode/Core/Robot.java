@@ -201,7 +201,13 @@ public class Robot {
      * Updates the state of every part of the robot. Should be called once per loop.
      */
     public void update() {
+        ballPathChain.update();
+        elementPositionFinder.update();
+        hiveTipDetector.update();
+        intake.update();
         launcher.update();
+        pedroPathingDriver.update();
+        storage.update();
     }
 
     /**

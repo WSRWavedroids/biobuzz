@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Core.FireMode;
 import org.firstinspires.ftc.teamcode.Core.FramerateCalculator;
 import org.firstinspires.ftc.teamcode.Core.Robot;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
@@ -169,10 +170,24 @@ public class OscarTeleOp extends OpMode {
         robot.update();
 
         //So Begins the input chain. At least try a bit to organize by driver
-        if (gamepad1.x) {
-
+        if (gamepad2.cross) { //A FOR XBOX LAYOUT
+            robot.intake.intake();
         } else {
+            robot.intake.stop();
+        }
 
+        if (gamepad2.circle) { //A FOR XBOX LAYOUT
+            robot.intake.outtake();
+        } else {
+            robot.intake.stop();
+        }
+
+        if (gamepad2.leftBumperWasPressed()) {
+            robot.launcher.fire(FireMode.FIRE_NOW_IF_READY);
+        }
+
+        if (gamepad2.rightBumperWasPressed()) {
+            robot.launcher.fire(FireMode.WAIT_FOR_SECOND_FOR_SAFE);
         }
 
         if (robot.controlMode == STANDARD_ROBOT_CENTRIC) {
