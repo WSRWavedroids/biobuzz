@@ -16,31 +16,42 @@ public class HiveTipFinder implements HiveTipDetector {
     public void start() {
 
     }
-
+    private HivePosition hivePosition = DRIVER_SIDE;
     @Override
     public HivePosition getCurrentHivePosition() {
         if (false) { //TODO check if it is actually seeing an apriltag or not
-            //return the most recent hive position
+            return hivePosition;
         }
         getRobotPositioning();
         if (true) { //TODO check if it is looking at start side, likely using apriltags
             if (hiveHeight > HIVE_UP_DISTANCE - LEAN_TOLERANCE) {
-            return DRIVER_SIDE;
+                hivePosition = DRIVER_SIDE;
+                return DRIVER_SIDE;
             } else if (hiveHeight < HIVE_DOWN_DISTANCE + LEAN_TOLERANCE){
-            return OPPOSING_SIDE;
+                hivePosition = OPPOSING_SIDE;
+                return OPPOSING_SIDE;
             }
         } else {
             if (hiveHeight > HIVE_UP_DISTANCE - LEAN_TOLERANCE) {
-            return OPPOSING_SIDE;
+                hivePosition = OPPOSING_SIDE;
+                return OPPOSING_SIDE;
             } else if (hiveHeight < HIVE_DOWN_DISTANCE + LEAN_TOLERANCE){
-            return DRIVER_SIDE;
+                hivePosition = DRIVER_SIDE;
+                return DRIVER_SIDE;
             }
         }
         //TODO find and return the way it is tipping
-        //if it gets here it is tipping and out of static tolerances
+        //if it gets here hive is tipping and out of static tolerances
         //it should be tipping towards the opposite pos of whatever it last was
-
-        return null;
+        if (hivePosition == DRIVER_SIDE) {
+            hivePosition = TIPPING_OPPOSING_SIDE;
+            return TIPPING_OPPOSING_SIDE;
+        } else if (hivePosition == OPPOSING_SIDE) {
+            hivePosition = TIPPING_DRIVER_SIDE;
+            return TIPPING_DRIVER_SIDE;
+        }
+        //if it gets here it is still tipping
+        return hivePosition;
     }
 
     @Override
@@ -51,10 +62,10 @@ public class HiveTipFinder implements HiveTipDetector {
     private void getRobotPositioning() {
         //TODO get dist to tag (using limelight)
         distanceToApriltag = 0;
-        //TODO get robot angle to hive (using pedro)
+        //TODO get robot angle vertically to hive (using limelight again)
         //it should know what the target angle is based on the side of the field the robot is on
         angleToHive = 0;
-        //TODO finish doing maths
+        //TODO finish doing maths if needed
         hiveHeight = distanceToApriltag * cos(angleToHive);
     }
 }
