@@ -83,7 +83,7 @@ public class AutonomousPLUS {
     public void moveAndStall(MoveDirection direction, int ticks, long pause) {
         move(direction, ticks);
 
-        while (!checkMovement()) {
+        while (checkMovement()) {
             robot.update();
         }
 
