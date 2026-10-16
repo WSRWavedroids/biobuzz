@@ -10,7 +10,7 @@ public class HiveTipFinder implements HiveTipDetector {
     private final Robot robot;
 
     private static final double HIVE_UP_DISTANCE = 0, HIVE_DOWN_DISTANCE = 0, LEAN_TOLERANCE = 0;
-    double distanceToApriltag, angleToHive, hiveHeight = 0;
+    double distanceToApriltag, hiveHeight = 0;
 
     @Override
     public void start() {
@@ -19,7 +19,7 @@ public class HiveTipFinder implements HiveTipDetector {
     private HivePosition hivePosition = DRIVER_SIDE;
     @Override
     public HivePosition getCurrentHivePosition() {
-        if (false) { //TODO check if it is actually seeing an apriltag or not
+        if (robot.limelight.getLatestResult() != null && robot.limelight.getLatestResult().isValid()) {
             return hivePosition;
         }
         getRobotPositioning();
@@ -40,7 +40,6 @@ public class HiveTipFinder implements HiveTipDetector {
                 return DRIVER_SIDE;
             }
         }
-        //TODO find and return the way it is tipping
         //if it gets here hive is tipping and out of static tolerances
         //it should be tipping towards the opposite pos of whatever it last was
         if (hivePosition == DRIVER_SIDE) {
@@ -62,10 +61,8 @@ public class HiveTipFinder implements HiveTipDetector {
     private void getRobotPositioning() {
         //TODO get dist to tag (using limelight)
         distanceToApriltag = 0;
-        //TODO get robot angle vertically to hive (using limelight again)
         //it should know what the target angle is based on the side of the field the robot is on
-        angleToHive = 0;
-        //TODO finish doing maths if needed
-        hiveHeight = distanceToApriltag * cos(angleToHive);
+        double cosVerticalHiveAngle = robot.pedroPathingDriver.findDistanceToHive() / distanceToApriltag;
+        hiveHeight = distanceToApriltag * cosVerticalHiveAngle;
     }
 }

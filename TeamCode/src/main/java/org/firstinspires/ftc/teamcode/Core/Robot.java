@@ -5,11 +5,13 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.*;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 
 import android.annotation.SuppressLint;
+import android.graphics.Camera;
 
 import com.bylazar.panels.Panels;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.geometry.Pose;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -75,6 +77,8 @@ public class Robot {
     public HiveTipDetector hiveTipDetector;
     public Intake intake;
     public Launcher launcher;
+    public PedroPathingDriver pedroDriver;
+    public Limelight3A limelight;
     public PedroPathingDriver pedroPathingDriver;
     public Storage storage;
 
@@ -152,6 +156,8 @@ public class Robot {
 
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+
         imuParameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.DOWN,
@@ -165,6 +171,7 @@ public class Robot {
         launcher = new LauncherTester(this);
         pedroPathingDriver = new PuppetPedroPathingDriver(this);
         storage = new PuppetStorage(this);
+
 
 
 
