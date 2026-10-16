@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.pedropathing.geometry.Pose;
+
 public enum HiveSide {
     SCORING(58,144 - 54,144 - 58,144 - 54),
     AUDIENCE(58,54,144 - 58,54),
@@ -9,6 +11,10 @@ public enum HiveSide {
         RED_Y = redY;
         BLUE_X = blueX;
         BLUE_Y = blueY;
+
+        RED_POSE = new Pose(redX, redY);
+        BLUE_POSE = new Pose(blueX, blueY);
     }
     public final double RED_X, RED_Y, BLUE_X, BLUE_Y;
+    public final Pose RED_POSE, BLUE_POSE;
 }
