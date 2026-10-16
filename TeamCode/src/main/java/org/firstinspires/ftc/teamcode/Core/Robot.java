@@ -11,6 +11,7 @@ import com.bylazar.panels.Panels;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.geometry.Pose;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -37,6 +38,8 @@ import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 import org.firstinspires.ftc.teamcode.Interfaces.PedroPathingDriver;
 import org.firstinspires.ftc.teamcode.Interfaces.Storage;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
+
+import java.util.List;
 
 public class Robot {
 
@@ -387,7 +390,18 @@ public class Robot {
      * Moves hardware to match-ready positions
      */
     public void readyHardware() {
-        // TODO Get your hardware ready here
+
+    }
+    public void initLimelight() {
+        limelight.pipelineSwitch(0);
+        limelight.start();
+    }
+    public double getApriltagDistance(){
+        List<LLResultTypes.FiducialResult> results = limelight.getLatestResult().getFiducialResults();
+        if (!results.isEmpty()) {
+            return results.get(0).getTargetPoseCameraSpace().getPosition().z;
+        }
+        return 0;
     }
 
     /**
