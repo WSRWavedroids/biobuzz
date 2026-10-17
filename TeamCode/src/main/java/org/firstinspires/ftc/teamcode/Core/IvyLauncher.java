@@ -55,7 +55,7 @@ public class IvyLauncher implements Launcher {
 
         fireNow = launcherSequence.unless(this::isNotSafeToFire);
 
-        fireWithinSecond = waitUntil(this::isSafeToFire).then(launcherSequence);
+        fireWhenSafe = waitUntil(this::isSafeToFire).then(launcherSequence);
 
         fireWithinSecond = race(waitMs(1000), waitUntil(this::isSafeToFire))
                 .then(fireNow);
