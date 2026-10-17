@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.Core;
 import static org.firstinspires.ftc.teamcode.Core.Robot.MoveDirection;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.PathChain;
-import com.pedropathing.util.Timer;
+import com.pedropathing.math.Pose;
+import com.pedropathing.paths.Path;
 
 import static android.os.SystemClock.sleep;
+
+import static com.pedropathing.api.Paths.curve;
+import static com.pedropathing.api.Paths.line;
+import static com.pedropathing.paths.interpolator.Interpolator.linear;
 
 import com.bylazar.panels.Panels;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -122,16 +124,9 @@ public class AutonomousPLUS {
         robot.backRightDrive.setTargetPositionTolerance(tolerance);
     }
 
-    public double timeLeft(Timer opmodeTimer)
-    {
-       return (30 - opmodeTimer.getElapsedTimeSeconds());
-    }
+    public Path makeDynamicPath(Follower follower, Pose targetPose) {
+        return line(follower.pose(), targetPose);
 
-    public PathChain makeDynamicPath(Follower follower, Pose targetPose, double targetHeadingDegrees) {
-        return follower.pathBuilder()
-                .addPath(new BezierLine(follower.getPose(), targetPose))
-                .setLinearHeadingInterpolation(follower.getHeading(), Math.toRadians(targetHeadingDegrees))
-                .build(); // Build the PathChain after adding all paths
     }
 
     // Game-specific auto-only functions can go here:

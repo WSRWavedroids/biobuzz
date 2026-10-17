@@ -8,9 +8,7 @@ import static org.firstinspires.ftc.teamcode.Core.Robot.DriveMode.STANDARD_ROBOT
 
 import com.bylazar.panels.Panels;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.PathChain;
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -20,7 +18,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Core.FireMode;
 import org.firstinspires.ftc.teamcode.Core.FramerateCalculator;
 import org.firstinspires.ftc.teamcode.Core.Robot;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 import java.util.Objects;
 
@@ -81,7 +79,7 @@ public class OscarTeleOp extends OpMode {
 
         // Call the initialization protocol from the Robot class.
         robot = new Robot(hardwareMap, telemetry, this);
-        teleFollower = Constants.createFollower(hardwareMap);
+        teleFollower = Constants.create(hardwareMap);
         robot.controlMode = STANDARD_ROBOT_CENTRIC;
         imu = hardwareMap.get(IMU.class, "imu");
 
@@ -92,13 +90,13 @@ public class OscarTeleOp extends OpMode {
         Pose startingPose = grabStartPose();
 
         robot.robotPosition = new Pose(
-                startingPose.getX(),
-                startingPose.getY(),
-                startingPose.getHeading()
+                startingPose.x(),
+                startingPose.y(),
+                startingPose.heading()
         );
 
         teleFollower.setPose(startingPose);
-        teleFollower.setHeading(startingPose.getHeading()); // TODO Redundant?
+        teleFollower.setHeading(startingPose.heading()); // TODO Redundant?
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -217,9 +215,9 @@ public class OscarTeleOp extends OpMode {
      */
     public void stop() {
         telemetry.addData("Status", "Robot Stopped");
-        blackboard.put("PedroX", robot.robotPosition.getX());
-        blackboard.put("PedroY", robot.robotPosition.getY());
-        blackboard.put("PedroHeading", Math.toRadians(robot.robotPosition.getHeading()));
+        blackboard.put("PedroX", robot.robotPosition.x());
+        blackboard.put("PedroY", robot.robotPosition.y());
+        blackboard.put("PedroHeading", Math.toRadians(robot.robotPosition.heading()));
         if (killSwitchActivated){
             telemetry.addLine("Killswitch Hit!");
         }
@@ -370,23 +368,6 @@ public class OscarTeleOp extends OpMode {
         {
             return new Pose(((inX) * 72) + 72, ((inY) * 72) + 72);
         }
-    }
-
-    private PathChain makeDynamicPath(Pose targetPose, double targetHeadingDegrees) {
-        return teleFollower.pathBuilder()
-                .addPath(new BezierLine(teleFollower.getPose(), targetPose))
-                .setLinearHeadingInterpolation(teleFollower.getHeading(), Math.toRadians(targetHeadingDegrees))
-                .build();
-        // Build the PathChain after adding all paths
-    }
-
-    private PathChain makeDynamicChain(Pose initalPose, Pose secondaryPose, double targetHeadingDegrees) {
-        return teleFollower.pathBuilder()
-                .addPath(new BezierLine(teleFollower.getPose(), initalPose))
-                .setLinearHeadingInterpolation(teleFollower.getHeading(), Math.toRadians(targetHeadingDegrees))
-                .addPath(new BezierLine(initalPose, secondaryPose))
-                .setLinearHeadingInterpolation(targetHeadingDegrees, targetHeadingDegrees)
-                .build(); // Build the PathChain after adding all paths
     }
 }
 

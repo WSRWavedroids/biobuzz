@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Templates;
 
 import static org.firstinspires.ftc.teamcode.Templates.TemplateLegacyIterativeAuto.Steps.*;
 
-import com.pedropathing.geometry.Pose;
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;

@@ -6,11 +6,11 @@ import static org.firstinspires.ftc.teamcode.Core.HiveSide.SCORING;
 import static org.firstinspires.ftc.teamcode.Core.Robot.Alliance.BLUE;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.PathChain;
+import com.pedropathing.math.Pose;
+import com.pedropathing.paths.Path;
 
 import org.firstinspires.ftc.teamcode.Interfaces.PedroPathingDriver;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 public class PositionTracker implements PedroPathingDriver {
 
@@ -20,7 +20,7 @@ public class PositionTracker implements PedroPathingDriver {
 
     public PositionTracker(Robot robot) {
         this.robot = robot;
-        follower = Constants.createFollower(robot.hardwareMap);
+        follower = Constants.create(robot.hardwareMap);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class PositionTracker implements PedroPathingDriver {
     }
 
     @Override
-    public void followPath(PathChain path) {
+    public void followPath(Path path) {
 
     }
 
@@ -49,43 +49,43 @@ public class PositionTracker implements PedroPathingDriver {
     }
 
     @Override
-    public PathChain makeChainToPose(Pose targetPose) {
+    public Path makePathToPose(Pose targetPose) {
         return null;
     }
 
     @Override
     public HiveSide findHiveZone() {
          if (robot.alliance == BLUE) {
-            if (currentPose.getX() >= 84) {
-                if (currentPose.getY() < currentPose.getX() - 24) {
+            if (currentPose.x() >= 84) {
+                if (currentPose.y() < currentPose.x() - 24) {
                     return AUDIENCE;
-                } else if (currentPose.getY() > -currentPose.getX() + 168) {
+                } else if (currentPose.y() > -currentPose.x() + 168) {
                     return SCORING;
                 } else {
                     return NONE;
                 }
             } else {
-                if (currentPose.getY() < -currentPose.getX() + 144) {
+                if (currentPose.y() < -currentPose.x() + 144) {
                     return AUDIENCE;
-                } else if (currentPose.getY() > currentPose.getX()) {
+                } else if (currentPose.y() > currentPose.x()) {
                     return SCORING;
                 } else {
                     return NONE;
                 }
             }
         } else { // Alliance is red
-            if (currentPose.getX() >= 60) {
-                if (currentPose.getY() < currentPose.getX()) {
+            if (currentPose.x() >= 60) {
+                if (currentPose.y() < currentPose.x()) {
                     return AUDIENCE;
-                } else if (currentPose.getY() > -currentPose.getX() + 120) {
+                } else if (currentPose.y() > -currentPose.x() + 120) {
                     return SCORING;
                 } else {
                     return NONE;
                 }
             } else {
-                if (currentPose.getY() < -currentPose.getX() + 144) {
+                if (currentPose.y() < -currentPose.x() + 144) {
                     return AUDIENCE;
-                } else if (currentPose.getY() > currentPose.getX() + 24) {
+                } else if (currentPose.y() > currentPose.x() + 24) {
                     return SCORING;
                 } else {
                     return NONE;
@@ -103,12 +103,12 @@ public class PositionTracker implements PedroPathingDriver {
             hivePose = findHiveZone().RED_POSE;
         }
 
-        return currentPose.distanceFrom(hivePose);
+        return currentPose.distance(hivePose);
     }
 
     @Override
     public void update() {
-        follower.updatePose();
-        currentPose = follower.getPose();
+        follower.localizer.update();
+        currentPose = follower.pose();
     }
 }

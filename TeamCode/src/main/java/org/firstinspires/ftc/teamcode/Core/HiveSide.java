@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import com.pedropathing.geometry.Pose;
+
+import com.pedropathing.math.Pose;
 
 public enum HiveSide {
     SCORING(58,144 - 54,144 - 58,144 - 54),

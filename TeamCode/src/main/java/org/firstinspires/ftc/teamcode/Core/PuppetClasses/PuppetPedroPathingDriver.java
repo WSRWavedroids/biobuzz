@@ -4,9 +4,8 @@ import static org.firstinspires.ftc.teamcode.Core.HiveSide.*;
 import static org.firstinspires.ftc.teamcode.Core.Robot.Alliance.*;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.pedropathing.geometry.Pose;
+import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
-import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.Core.HiveSide;
 import org.firstinspires.ftc.teamcode.Core.Robot;
@@ -34,7 +33,7 @@ public class PuppetPedroPathingDriver implements PedroPathingDriver {
     }
 
     @Override
-    public void followPath(PathChain path) {
+    public void followPath(Path path) {
 
     }
 
@@ -49,9 +48,9 @@ public class PuppetPedroPathingDriver implements PedroPathingDriver {
     }
 
     @Override
-    public PathChain makeChainToPose(Pose targetPose) {
+    public Path makePathToPose(Pose targetPose) {
         // TODO decide on the intended behavior here
-        return new PathChain();
+        return null;
     }
 
     @Override
