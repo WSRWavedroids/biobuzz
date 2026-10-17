@@ -12,15 +12,9 @@ public class IvyLauncher implements Launcher {
 
     private final Robot robot;
 
-    private Command revMotor;
-    private Command lift;
-    private Command adjustForPollen;
-    private Command reset;
-    private Command launcherSequence;
-
-    private Command fireNow;
-    private Command fireWithinSecond;
-    private Command fireWhenSafe;
+    private final Command fireNow;
+    private final Command fireWithinSecond;
+    private final Command fireWhenSafe;
 
 
     private static final double NECTAR_FIRE_TIME = 1;
@@ -32,19 +26,19 @@ public class IvyLauncher implements Launcher {
     public IvyLauncher(Robot robot) {
         this.robot = robot;
 
-        revMotor = Command.build()
+        Command revMotor = Command.build()
                 .setStart(this::revMotor)
                 .setDone(() -> robot.frontLauncherWheels.withinTolerance() && robot.backLauncherWheels.withinTolerance())
                 .requiring(robot.frontLauncherWheels, robot.backLauncherWheels);
 
-        lift = instant(this::lift);
+        Command lift = instant(this::lift);
 
-        adjustForPollen = instant(this::adjustServoForPollen);
+        Command adjustForPollen = instant(this::adjustServoForPollen);
 
-        reset = instant(this::reset);
+        Command reset = instant(this::reset);
 
 
-        launcherSequence = sequential(
+        Command launcherSequence = sequential(
                 revMotor,
                 lift,
                 waitMs(NECTAR_FIRE_TIME * 1000),
