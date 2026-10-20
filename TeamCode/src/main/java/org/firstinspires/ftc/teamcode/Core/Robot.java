@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -52,6 +53,9 @@ public class Robot {
 
     public ezPID frontLauncherWheels;
     public ezPID backLauncherWheels;
+
+    public Servo frontLauncherServo;
+    public Servo backLauncherServo;
 
     public DcMotorEx frontIntakeMotor;
     public DcMotorEx backIntakeMotor;
@@ -142,24 +146,27 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
-        frontLauncherWheels = hardwareMap.get(ezPID.class, "frontLauncherWheels");
-        backLauncherWheels = hardwareMap.get(ezPID.class, "backLauncherWheels");
+        frontLauncherWheels = hardwareMap.get(ezPID.class, "frontLauncherWheel");
+        backLauncherWheels = hardwareMap.get(ezPID.class, "backLauncherWheel");
+
+        frontLauncherServo = hardwareMap.get(Servo.class, "frontLauncherServo");
+        backLauncherServo = hardwareMap.get(Servo.class, "backLauncherServo");
 
         frontIntakeMotor = hardwareMap.get(DcMotorEx.class, "frontIntakeMotor");
         backIntakeMotor = hardwareMap.get(DcMotorEx.class, "backIntakeMotor");
 
         frontColorSensorOne = hardwareMap.get(ColorSensor.class, "frontColorSensorOne");
         frontColorSensorTwo = hardwareMap.get(ColorSensor.class, "frontColorSensorTwo");
-        frontColorSensorThree = hardwareMap.get(ColorSensor.class, "frontColorSensorThree");
-        frontColorSensorFour = hardwareMap.get(ColorSensor.class, "frontColorSensorFour");
-        backColorSensorOne = hardwareMap.get(ColorSensor.class, "backColorSensorOne");
-        backColorSensorTwo = hardwareMap.get(ColorSensor.class, "backColorSensorTwo");
-        backColorSensorThree = hardwareMap.get(ColorSensor.class, "backColorSensorThree");
-        backColorSensorFour = hardwareMap.get(ColorSensor.class, "backColorSensorFour");
+//        frontColorSensorThree = hardwareMap.get(ColorSensor.class, "frontColorSensorThree");
+//        frontColorSensorFour = hardwareMap.get(ColorSensor.class, "frontColorSensorFour");
+//        backColorSensorOne = hardwareMap.get(ColorSensor.class, "backColorSensorOne");
+//        backColorSensorTwo = hardwareMap.get(ColorSensor.class, "backColorSensorTwo");
+//        backColorSensorThree = hardwareMap.get(ColorSensor.class, "backColorSensorThree");
+//        backColorSensorFour = hardwareMap.get(ColorSensor.class, "backColorSensorFour");
 
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        //limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         imuParameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
@@ -167,6 +174,8 @@ public class Robot {
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
         );
+
+
         ballPathChain = new PuppetBallPathChain(this);
         elementPositionFinder = new PuppetElementPositionFinder(this);
         hiveTipDetector = new HiveTipFinder(this);
