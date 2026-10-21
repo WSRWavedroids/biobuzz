@@ -34,7 +34,7 @@ import java.util.Objects;
  * If you ever have problems with the program not showing up on the driver hub, it's probably because of that.
  * <p>
  */
-@Disabled
+
 @TeleOp(name = "Full TeleOp", group = "Templates")
 public class OscarTeleOp extends OpMode {
 
@@ -44,8 +44,6 @@ public class OscarTeleOp extends OpMode {
     private double speed = 0.75;
 
     private boolean automatedDrive;
-
-    Follower teleFollower;
 
     //Trackpad data
     public double trackpadXMax = 1920;
@@ -79,7 +77,7 @@ public class OscarTeleOp extends OpMode {
 
         // Call the initialization protocol from the Robot class.
         robot = new Robot(hardwareMap, telemetry, this);
-        teleFollower = Constants.create(hardwareMap);
+
         robot.controlMode = STANDARD_ROBOT_CENTRIC;
         imu = hardwareMap.get(IMU.class, "imu");
 
@@ -94,9 +92,6 @@ public class OscarTeleOp extends OpMode {
                 startingPose.y(),
                 startingPose.heading()
         );
-
-        teleFollower.setPose(startingPose);
-        teleFollower.setHeading(startingPose.heading()); // TODO Redundant?
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -168,15 +163,11 @@ public class OscarTeleOp extends OpMode {
         robot.update();
 
         //So Begins the input chain. At least try a bit to organize by driver
-        if (gamepad2.cross) { //A FOR XBOX LAYOUT
+        if (gamepad2.crossWasPressed()) { //A FOR XBOX LAYOUT
             robot.intake.intake();
-        } else {
-            robot.intake.stop();
-        }
-
-        if (gamepad2.circle) { //A FOR XBOX LAYOUT
+        } else if (gamepad2.circleWasPressed()) { //A FOR XBOX LAYOUT
             robot.intake.outtake();
-        } else {
+        } else if (gamepad2.crossWasReleased() || gamepad2.circleWasReleased()) {
             robot.intake.stop();
         }
 
@@ -316,10 +307,10 @@ public class OscarTeleOp extends OpMode {
         final Pose redResetPose = new Pose(9.59, 9.67, Math.PI /2);
         if (gamepad1.start && gamepad1.shareWasPressed()) {
             if (robot.alliance == BLUE) {
-                teleFollower.setPose(blueResetPose);
+
             }
             if (robot.alliance == RED) {
-                teleFollower.setPose(redResetPose);
+
             }
         }
     }

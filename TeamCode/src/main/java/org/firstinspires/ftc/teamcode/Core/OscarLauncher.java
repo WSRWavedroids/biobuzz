@@ -6,10 +6,8 @@ import static org.firstinspires.ftc.teamcode.Core.OscarLauncher.LauncherState.*;
 import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 
 public class OscarLauncher implements Launcher {
-    public OscarLauncher(Robot robot) {
-        this.robot = robot;
-    }
     private final Robot robot;
+    private final ezPID front, back;
     enum LauncherState {
         STANDBY, WAIT_SECOND_FOR_SAFE, REV_MOTOR, LIFT, ADJUST_FOR_POLLEN, RESET
     }
@@ -19,8 +17,24 @@ public class OscarLauncher implements Launcher {
     private FireMode fireMode = NOT_FIRING;
     private double frontTargetSpeed, backTargetSpeed = 0;
 
+    private final int TICKS_PER_ROTATION = 28;
+    private final double p = 0.0005;
+    private final double i = 0;
+    private final double d = 0.0;
+    private final double f = 0;
+    private final double KNEECAP = 1;
+    private final double TOLERANCE = 50;
+
+
     private static final double NECTAR_FIRE_TIME = 1;
     private static final double POLLEN_FIRE_TIME = 1;
+
+    public OscarLauncher(Robot robot) {
+        this.robot = robot;
+        front = new ezPID(robot.frontLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
+        back = new ezPID(robot.backLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
+
+    }
 
     @Override
     public void fire(FireMode mode) {
@@ -34,8 +48,8 @@ public class OscarLauncher implements Launcher {
 
     @Override
     public void update() {
-        robot.frontLauncherWheels.runCalledPID(frontTargetSpeed);
-        robot.backLauncherWheels.runCalledPID(backTargetSpeed);
+        front.runCalledPID(frontTargetSpeed);
+        back.runCalledPID(backTargetSpeed);
 
 
         switch (currentState) {
@@ -70,7 +84,7 @@ public class OscarLauncher implements Launcher {
                 }
                 break;
             case REV_MOTOR:
-                if (robot.frontLauncherWheels.withinTolerance() && robot.backLauncherWheels.withinTolerance()) {
+                if (front.withinTolerance() && back.withinTolerance()) {
                     lift();
                 }
                 break;
@@ -85,7 +99,10 @@ public class OscarLauncher implements Launcher {
                 }
                 break;
             case RESET:
-                //TODO reset lift, turn off motors
+                robot.frontLauncherServo.setPosition(0);
+                robot.backLauncherServo.setPosition(0);
+                frontTargetSpeed = 0;
+                backTargetSpeed = 0;
                 currentState = STANDBY;
                 break;
         }
@@ -105,20 +122,21 @@ public class OscarLauncher implements Launcher {
     }
 
     private void adjustForPollen() {
-        // TODO Close the servo
+        robot.frontLauncherServo.setPosition(1);
+        robot.backLauncherServo.setPosition(1);
         timerStartTime = robot.runtime.seconds();
         currentState = ADJUST_FOR_POLLEN;
     }
 
     private boolean isSafeToFire() {
-        return false;
+        return true;
     }
 
     private double findFrontMotorSpeed() {
-        return 0;
+        return 500;
     }
 
     private double findBackMotorSpeed() {
-        return 0;
+        return 500;
     }
 }

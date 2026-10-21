@@ -51,8 +51,8 @@ public class Robot {
 
     public VoltageSensor voltageSensor;
 
-    public ezPID frontLauncherWheels;
-    public ezPID backLauncherWheels;
+    public DcMotorEx frontLauncherWheels;
+    public DcMotorEx backLauncherWheels;
 
     public Servo frontLauncherServo;
     public Servo backLauncherServo;
@@ -146,8 +146,8 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
-        frontLauncherWheels = hardwareMap.get(ezPID.class, "frontLauncherWheel");
-        backLauncherWheels = hardwareMap.get(ezPID.class, "backLauncherWheel");
+        frontLauncherWheels = hardwareMap.get(DcMotorEx.class, "frontLauncherWheel");
+        backLauncherWheels = hardwareMap.get(DcMotorEx.class, "backLauncherWheel");
 
         frontLauncherServo = hardwareMap.get(Servo.class, "frontLauncherServo");
         backLauncherServo = hardwareMap.get(Servo.class, "backLauncherServo");
@@ -156,10 +156,10 @@ public class Robot {
         backIntakeMotor = hardwareMap.get(DcMotorEx.class, "backIntakeMotor");
 
         frontColorSensorOne = hardwareMap.get(ColorSensor.class, "frontColorSensorOne");
-        frontColorSensorTwo = hardwareMap.get(ColorSensor.class, "frontColorSensorTwo");
+//        frontColorSensorTwo = hardwareMap.get(ColorSensor.class, "frontColorSensorTwo");
 //        frontColorSensorThree = hardwareMap.get(ColorSensor.class, "frontColorSensorThree");
 //        frontColorSensorFour = hardwareMap.get(ColorSensor.class, "frontColorSensorFour");
-//        backColorSensorOne = hardwareMap.get(ColorSensor.class, "backColorSensorOne");
+        backColorSensorOne = hardwareMap.get(ColorSensor.class, "backColorSensorOne");
 //        backColorSensorTwo = hardwareMap.get(ColorSensor.class, "backColorSensorTwo");
 //        backColorSensorThree = hardwareMap.get(ColorSensor.class, "backColorSensorThree");
 //        backColorSensorFour = hardwareMap.get(ColorSensor.class, "backColorSensorFour");
@@ -179,8 +179,8 @@ public class Robot {
         ballPathChain = new PuppetBallPathChain(this);
         elementPositionFinder = new PuppetElementPositionFinder(this);
         hiveTipDetector = new HiveTipFinder(this);
-        intake = new PuppetIntake(this);
-        launcher = new LauncherTester(this);
+        intake = new OscarIntake(this);
+        launcher = new OscarLauncher(this);
         pedroPathingDriver = new PuppetPedroPathingDriver(this);
         storage = new PuppetStorage(this);
 
