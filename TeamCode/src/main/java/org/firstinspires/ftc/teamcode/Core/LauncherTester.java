@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+import com.bylazar.configurables.annotations.Configurable;
+
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetLauncher;
 import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 
+@Configurable
 public class LauncherTester implements Launcher {
     private Robot robot;
     private final int TICKS_PER_ROTATION = 28;
