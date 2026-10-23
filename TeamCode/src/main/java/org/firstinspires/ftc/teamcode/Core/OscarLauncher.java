@@ -12,7 +12,7 @@ public class OscarLauncher implements Launcher {
         STANDBY, WAIT_SECOND_FOR_SAFE, REV_MOTOR, LIFT, ADJUST_FOR_POLLEN, RESET
     }
     private LauncherState currentState = STANDBY;
-    private boolean triggerLaunch = false;
+    private boolean firing = false;
     private double timerStartTime = 0;
     private FireMode fireMode = NOT_FIRING;
     private double frontTargetSpeed, backTargetSpeed = 0;
@@ -43,7 +43,7 @@ public class OscarLauncher implements Launcher {
 
     @Override
     public boolean isFiring() {
-        return false;
+        return firing;
     }
 
     @Override
@@ -104,10 +104,12 @@ public class OscarLauncher implements Launcher {
                 frontTargetSpeed = 0;
                 backTargetSpeed = 0;
                 currentState = STANDBY;
+                firing = false;
                 break;
         }
     }
     private void startRevvingMotors() {
+        firing = true;
         frontTargetSpeed = findFrontMotorSpeed();
         backTargetSpeed = findBackMotorSpeed();
         timerStartTime = robot.runtime.seconds();
