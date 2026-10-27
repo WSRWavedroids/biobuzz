@@ -29,6 +29,7 @@ import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetBallPathChain;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetElementPositionFinder;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetHiveTipDetector;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetIntake;
+import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetLauncher;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetPedroPathingDriver;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetStorage;
 import org.firstinspires.ftc.teamcode.Interfaces.BallPathChain;
@@ -400,10 +401,6 @@ public class Robot {
      */
     public void readyHardware() {
 
-    }
-    public void initLimelight() {
-        limelight.pipelineSwitch(0);
-        limelight.start();
     }
     public double getApriltagDistance(){
         List<LLResultTypes.FiducialResult> results = limelight.getLatestResult().getFiducialResults();

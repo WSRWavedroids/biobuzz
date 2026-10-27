@@ -61,6 +61,7 @@ public class OscarIntake implements Intake {
     public void update() {
         flaggedFrontBall = flagBalls(frontColorSensors);
         flaggedBackBall = flagBalls(backColorSensors);
+
         switch (currentFrontMode) {
             case STANDBY:
                 robot.frontIntakeMotor.setPower(0);

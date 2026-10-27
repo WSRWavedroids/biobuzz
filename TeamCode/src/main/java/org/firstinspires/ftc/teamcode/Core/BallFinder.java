@@ -23,7 +23,7 @@ public class BallFinder implements ElementPositionFinder {
     }
     private void foodini() {
         for (ElementFinderCamera camera : cameras) {
-            //r = Math.sqrt(Math.pow(distance, 2) - Math.pow(elementFinderCameras.y /*- ballRadius*/, 2));
+            //r = Math.sqrt(Math.pow(distance, 2) - Math.pow(camera.y /*- ballRadius*/, 2));
             //must be stored as a seprate r in each.
         }
     }
