@@ -26,4 +26,9 @@ public class PuppetLauncher implements Launcher {
     public void update() {
 
     }
+
+    @Override
+    public void addTelemetry() {
+
+    }
 }

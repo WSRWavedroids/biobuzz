@@ -34,4 +34,9 @@ public class LauncherTester implements Launcher {
         front.changeBehaviorValues(p,i,d,f,kneecapIN,tolerance);
         back.changeBehaviorValues(p,i,d,f,kneecapIN,tolerance);
     }
+
+    @Override
+    public void addTelemetry() {
+
+    }
 }

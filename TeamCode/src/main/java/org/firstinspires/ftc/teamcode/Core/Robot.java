@@ -128,7 +128,8 @@ public class Robot {
         /// Both types of nectar
         ANY_NECTAR,
         /// The pollen
-        POLLEN}
+        POLLEN
+    }
 
     public boolean scanningForTargetTag = false;
 
@@ -221,6 +222,11 @@ public class Robot {
         launcher.update();
         pedroPathingDriver.update();
         storage.update();
+        telemetry.update();
+    }
+
+    public void addEverythingToTelemetry() {
+        launcher.addTelemetry();
     }
 
     /**

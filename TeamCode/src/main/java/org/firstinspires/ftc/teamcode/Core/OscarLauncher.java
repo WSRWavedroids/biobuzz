@@ -108,6 +108,18 @@ public class OscarLauncher implements Launcher {
                 break;
         }
     }
+
+    @Override
+    public void addTelemetry() {
+        robot.telemetry.addLine("Launcher:");
+        robot.telemetry.addData("Launcher State", currentState);
+        robot.telemetry.addData("Firing", firing);
+        robot.telemetry.addData("Front Wheel Velocity", robot.frontLauncherWheels.getVelocity());
+        robot.telemetry.addData("Front Wheel Target Velocity", frontTargetSpeed);
+        robot.telemetry.addData("Back Wheel Velocity", robot.backLauncherWheels.getVelocity());
+        robot.telemetry.addData("Back Wheel Target Velocity", backTargetSpeed);
+    }
+
     private void startRevvingMotors() {
         firing = true;
         frontTargetSpeed = findFrontMotorSpeed();

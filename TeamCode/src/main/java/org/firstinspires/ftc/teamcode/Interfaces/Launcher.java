@@ -8,4 +8,6 @@ public interface Launcher {
     boolean isFiring();
 
     void update();
+
+    void addTelemetry();
 }
