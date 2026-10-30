@@ -17,4 +17,6 @@ public interface PedroPathingDriver {
     double findDistanceToHive();
     void update();
 
+    void addTelemetry();
+
 }

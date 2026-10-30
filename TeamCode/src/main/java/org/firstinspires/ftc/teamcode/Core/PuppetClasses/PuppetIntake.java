@@ -27,4 +27,9 @@ public class PuppetIntake implements Intake {
     public void update() {
 
     }
+
+    @Override
+    public void addTelemetry() {
+
+    }
 }

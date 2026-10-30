@@ -111,4 +111,10 @@ public class PositionTracker implements PedroPathingDriver {
         follower.localizer.update();
         currentPose = follower.pose();
     }
+
+    public void addTelemetry() {
+        robot.telemetry.addLine("Position Tracker");
+        robot.telemetry.addData("Current Pose", currentPose);
+        robot.telemetry.addLine();
+    }
 }

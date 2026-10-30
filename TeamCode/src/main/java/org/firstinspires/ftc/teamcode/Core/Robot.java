@@ -222,11 +222,17 @@ public class Robot {
         launcher.update();
         pedroPathingDriver.update();
         storage.update();
+
         telemetry.update();
     }
 
     public void addEverythingToTelemetry() {
+        ballPathChain.addTelemetry();
+        elementPositionFinder.addTelemetry();
+        hiveTipDetector.addTelemetry();
+        intake.addTelemetry();
         launcher.addTelemetry();
+        pedroPathingDriver.addTelemetry();
     }
 
     /**

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 import static org.firstinspires.ftc.teamcode.Core.HivePosition.*;
-import static java.lang.Math.*;
 
 import org.firstinspires.ftc.teamcode.Interfaces.HiveTipDetector;
 
@@ -58,9 +57,18 @@ public class HiveTipFinder implements HiveTipDetector {
 
     }
 
-    private void getRobotPositioning() {
+    private String getRobotPositioning() {
         distanceToApriltag = robot.getApriltagDistance();
         double cosVerticalHiveAngle = robot.pedroPathingDriver.findDistanceToHive() / distanceToApriltag;
         hiveHeight = distanceToApriltag * cosVerticalHiveAngle;
+        return "";
+    }
+
+    public void addTelemetry() {
+        robot.telemetry.addLine("Hive-Tip Finder");
+        robot.telemetry.addData("Hive Position", hivePosition);
+        robot.telemetry.addData("Apriltag Distance", distanceToApriltag);
+        robot.telemetry.addData("Hive Height", hiveHeight);
+        robot.telemetry.addLine();
     }
 }

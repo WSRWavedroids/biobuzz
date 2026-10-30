@@ -25,4 +25,9 @@ public class PuppetBallPathChain implements BallPathChain {
     public void isDone() {
 
     }
+
+    @Override
+    public void addTelemetry() {
+
+    }
 }

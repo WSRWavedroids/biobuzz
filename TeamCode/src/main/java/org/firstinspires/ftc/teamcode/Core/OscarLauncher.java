@@ -118,6 +118,7 @@ public class OscarLauncher implements Launcher {
         robot.telemetry.addData("Front Wheel Target Velocity", frontTargetSpeed);
         robot.telemetry.addData("Back Wheel Velocity", robot.backLauncherWheels.getVelocity());
         robot.telemetry.addData("Back Wheel Target Velocity", backTargetSpeed);
+        robot.telemetry.addLine();
     }
 
     private void startRevvingMotors() {

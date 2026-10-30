@@ -109,10 +109,17 @@ public class OscarIntake implements Intake {
                 break;
         }
 
+
+    }
+
+    @Override
+    public void addTelemetry() {
+        robot.telemetry.addLine("Intake:");
         robot.telemetry.addData("Front Intake Mode", currentFrontMode);
         robot.telemetry.addData("Back Intake Mode", currentBackMode);
         robot.telemetry.addData("Front Flagged", flaggedFrontBall);
         robot.telemetry.addData("Back Flagged", flaggedBackBall);
+        robot.telemetry.addLine();
     }
 
     private boolean flagBalls(ArrayList<ColorSensor> sensorList) {

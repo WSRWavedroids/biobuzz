@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+
+import static org.firstinspires.ftc.teamcode.Core.Robot.BallColor.*;
+
 import org.firstinspires.ftc.teamcode.Interfaces.ElementPositionFinder;
 
 import java.util.ArrayList;
@@ -30,5 +33,13 @@ public class BallFinder implements ElementPositionFinder {
     @Override
     public void update() {
         foodini();
+    }
+
+    public void addTelemetry() {
+        robot.telemetry.addLine("Ball Finder");
+        robot.telemetry.addData("Alliance Nectar: ", getBallPositions(ALLIANCE_NECTAR));
+        robot.telemetry.addData("Non-Alliance Nectar: ", getBallPositions(NON_ALLIANCE_NECTAR));
+        robot.telemetry.addData("Pollen: ", getBallPositions(POLLEN));
+        robot.telemetry.addLine();
     }
 }

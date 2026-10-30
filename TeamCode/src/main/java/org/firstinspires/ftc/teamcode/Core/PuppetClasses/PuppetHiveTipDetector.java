@@ -29,4 +29,9 @@ public class PuppetHiveTipDetector implements HiveTipDetector {
     public void update() {
 
     }
+
+    @Override
+    public void addTelemetry() {
+
+    }
 }

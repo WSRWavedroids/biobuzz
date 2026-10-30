@@ -10,5 +10,7 @@ public interface ElementPositionFinder {
 
     void update();
 
+    void addTelemetry();
+
 }
 

@@ -8,4 +8,6 @@ public interface HiveTipDetector {
     HivePosition getCurrentHivePosition();
 
     void update();
+
+    void addTelemetry();
 }

@@ -23,4 +23,9 @@ public class PuppetElementPositionFinder implements ElementPositionFinder {
     public void update() {
 
     }
+
+    @Override
+    public void addTelemetry() {
+
+    }
 }
