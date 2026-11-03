@@ -115,4 +115,9 @@ public class PuppetPedroPathingDriver implements PedroPathingDriver {
     public void update() {
 
     }
+
+    @Override
+    public void addTelemetry() {
+
+    }
 }

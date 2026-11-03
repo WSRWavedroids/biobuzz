@@ -4,4 +4,5 @@ public interface BallPathChain {
     void goGetBalls();
     void update();
     void isDone();
+    void addTelemetry();
 }

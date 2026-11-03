@@ -5,4 +5,6 @@ public interface Intake {
     void outtake();
     void stop();
     void update();
+
+    void addTelemetry();
 }

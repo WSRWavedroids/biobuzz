@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -28,6 +29,7 @@ import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetBallPathChain;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetElementPositionFinder;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetHiveTipDetector;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetIntake;
+import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetLauncher;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetPedroPathingDriver;
 import org.firstinspires.ftc.teamcode.Core.PuppetClasses.PuppetStorage;
 import org.firstinspires.ftc.teamcode.Interfaces.BallPathChain;
@@ -50,8 +52,11 @@ public class Robot {
 
     public VoltageSensor voltageSensor;
 
-    public ezPID frontLauncherWheels;
-    public ezPID backLauncherWheels;
+    public DcMotorEx frontLauncherWheels;
+    public DcMotorEx backLauncherWheels;
+
+    public Servo frontLauncherServo;
+    public Servo backLauncherServo;
 
     public DcMotorEx frontIntakeMotor;
     public DcMotorEx backIntakeMotor;
@@ -123,7 +128,8 @@ public class Robot {
         /// Both types of nectar
         ANY_NECTAR,
         /// The pollen
-        POLLEN}
+        POLLEN
+    }
 
     public boolean scanningForTargetTag = false;
 
@@ -142,24 +148,27 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
-        frontLauncherWheels = hardwareMap.get(ezPID.class, "frontLauncherWheels");
-        backLauncherWheels = hardwareMap.get(ezPID.class, "backLauncherWheels");
+        frontLauncherWheels = hardwareMap.get(DcMotorEx.class, "frontLauncherWheel");
+        backLauncherWheels = hardwareMap.get(DcMotorEx.class, "backLauncherWheel");
+
+        frontLauncherServo = hardwareMap.get(Servo.class, "frontLauncherServo");
+        backLauncherServo = hardwareMap.get(Servo.class, "backLauncherServo");
 
         frontIntakeMotor = hardwareMap.get(DcMotorEx.class, "frontIntakeMotor");
         backIntakeMotor = hardwareMap.get(DcMotorEx.class, "backIntakeMotor");
 
         frontColorSensorOne = hardwareMap.get(ColorSensor.class, "frontColorSensorOne");
-        frontColorSensorTwo = hardwareMap.get(ColorSensor.class, "frontColorSensorTwo");
-        frontColorSensorThree = hardwareMap.get(ColorSensor.class, "frontColorSensorThree");
-        frontColorSensorFour = hardwareMap.get(ColorSensor.class, "frontColorSensorFour");
+//        frontColorSensorTwo = hardwareMap.get(ColorSensor.class, "frontColorSensorTwo");
+//        frontColorSensorThree = hardwareMap.get(ColorSensor.class, "frontColorSensorThree");
+//        frontColorSensorFour = hardwareMap.get(ColorSensor.class, "frontColorSensorFour");
         backColorSensorOne = hardwareMap.get(ColorSensor.class, "backColorSensorOne");
-        backColorSensorTwo = hardwareMap.get(ColorSensor.class, "backColorSensorTwo");
-        backColorSensorThree = hardwareMap.get(ColorSensor.class, "backColorSensorThree");
-        backColorSensorFour = hardwareMap.get(ColorSensor.class, "backColorSensorFour");
+//        backColorSensorTwo = hardwareMap.get(ColorSensor.class, "backColorSensorTwo");
+//        backColorSensorThree = hardwareMap.get(ColorSensor.class, "backColorSensorThree");
+//        backColorSensorFour = hardwareMap.get(ColorSensor.class, "backColorSensorFour");
 
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        //limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         imuParameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
@@ -167,11 +176,13 @@ public class Robot {
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
         );
+
+
         ballPathChain = new PuppetBallPathChain(this);
         elementPositionFinder = new PuppetElementPositionFinder(this);
         hiveTipDetector = new HiveTipFinder(this);
-        intake = new PuppetIntake(this);
-        launcher = new LauncherTester(this);
+        intake = new OscarIntake(this);
+        launcher = new OscarLauncher(this);
         pedroPathingDriver = new PuppetPedroPathingDriver(this);
         storage = new PuppetStorage(this);
 
@@ -211,6 +222,17 @@ public class Robot {
         launcher.update();
         pedroPathingDriver.update();
         storage.update();
+
+        telemetry.update();
+    }
+
+    public void addEverythingToTelemetry() {
+        ballPathChain.addTelemetry();
+        elementPositionFinder.addTelemetry();
+        hiveTipDetector.addTelemetry();
+        intake.addTelemetry();
+        launcher.addTelemetry();
+        pedroPathingDriver.addTelemetry();
     }
 
     /**
@@ -391,10 +413,6 @@ public class Robot {
      */
     public void readyHardware() {
 
-    }
-    public void initLimelight() {
-        limelight.pipelineSwitch(0);
-        limelight.start();
     }
     public double getApriltagDistance(){
         List<LLResultTypes.FiducialResult> results = limelight.getLatestResult().getFiducialResults();

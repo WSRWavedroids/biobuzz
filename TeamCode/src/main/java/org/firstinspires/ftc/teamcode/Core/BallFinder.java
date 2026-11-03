@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Core;
 
+
+import static org.firstinspires.ftc.teamcode.Core.Robot.BallColor.*;
+
 import org.firstinspires.ftc.teamcode.Interfaces.ElementPositionFinder;
 
 import java.util.ArrayList;
@@ -23,12 +26,20 @@ public class BallFinder implements ElementPositionFinder {
     }
     private void foodini() {
         for (ElementFinderCamera camera : cameras) {
-            //r = Math.sqrt(Math.pow(distance, 2) - Math.pow(elementFinderCameras.y /*- ballRadius*/, 2));
+            //r = Math.sqrt(Math.pow(distance, 2) - Math.pow(camera.y /*- ballRadius*/, 2));
             //must be stored as a seprate r in each.
         }
     }
     @Override
     public void update() {
         foodini();
+    }
+
+    public void addTelemetry() {
+        robot.telemetry.addLine("Ball Finder");
+        robot.telemetry.addData("Alliance Nectar: ", getBallPositions(ALLIANCE_NECTAR));
+        robot.telemetry.addData("Non-Alliance Nectar: ", getBallPositions(NON_ALLIANCE_NECTAR));
+        robot.telemetry.addData("Pollen: ", getBallPositions(POLLEN));
+        robot.telemetry.addLine();
     }
 }
