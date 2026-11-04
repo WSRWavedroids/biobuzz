@@ -52,6 +52,7 @@ public class TestBotRobot {
     public DcMotorEx frontRightDrive;
     public DcMotorEx backLeftDrive;
     public DcMotorEx backRightDrive;
+    public GoBildaPinpointDriver pinpoint;
 
     public VoltageSensor voltageSensor;
 
@@ -122,6 +123,8 @@ public class TestBotRobot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
+        pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
+
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
         imuParameters = new IMU.Parameters(
@@ -135,12 +138,6 @@ public class TestBotRobot {
         frontLeftDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         backLeftDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         backRightDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-
-        frontLeftDrive.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        frontLeftDrive.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftDrive.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         frontLeftDrive.setDirection(REVERSE);
