@@ -5,6 +5,7 @@ import com.pedropathing.tuning.autotune.Procedure;
 import com.pedropathing.tuning.autotune.Tuner;
 
 import org.firstinspires.ftc.teamcode.pedro.procedures.MecanumTuner;
+import org.firstinspires.ftc.teamcode.pedro.procedures.PinpointTuner;
 import org.firstinspires.ftc.teamcode.pedro.procedures.Tests;
 import org.firstinspires.ftc.teamcode.pedro.procedures.ThreeWheelTuner;
 import org.firstinspires.ftc.teamcode.testbot.testbot.TestBotConstants;
@@ -22,5 +23,9 @@ public class Tuning {
     @Tuner
     public static Procedure threeWheelTuner() {
         return new ThreeWheelTuner();
+    }
+    @Tuner
+    public static Procedure pinpointTuner() {
+        return new PinpointTuner();
     }
 }
