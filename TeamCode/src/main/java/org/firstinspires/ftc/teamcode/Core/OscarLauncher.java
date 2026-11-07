@@ -101,8 +101,13 @@ public class OscarLauncher implements Launcher {
             case RESET:
                 robot.frontLauncherServo.setPosition(0);
                 robot.backLauncherServo.setPosition(0);
+
+                robot.frontHoodServo.setPosition(1);
+                robot.backHoodServo.setPosition(1);
+
                 frontTargetSpeed = 0;
                 backTargetSpeed = 0;
+
                 currentState = STANDBY;
                 firing = false;
                 break;
@@ -139,6 +144,10 @@ public class OscarLauncher implements Launcher {
     private void adjustForPollen() {
         robot.frontLauncherServo.setPosition(1);
         robot.backLauncherServo.setPosition(1);
+
+        robot.frontHoodServo.setPosition(findFrontHoodPosition());
+        robot.backHoodServo.setPosition(findBackHoodPosition());
+
         timerStartTime = robot.runtime.seconds();
         currentState = ADJUST_FOR_POLLEN;
     }
@@ -154,4 +163,7 @@ public class OscarLauncher implements Launcher {
     private double findBackMotorSpeed() {
         return 500;
     }
+
+    private double findFrontHoodPosition() {return .9;}
+    private double findBackHoodPosition() {return .9;}
 }

@@ -58,6 +58,9 @@ public class Robot {
     public Servo frontLauncherServo;
     public Servo backLauncherServo;
 
+    public Servo frontHoodServo;
+    public Servo backHoodServo;
+
     public DcMotorEx frontIntakeMotor;
     public DcMotorEx backIntakeMotor;
 
@@ -153,6 +156,9 @@ public class Robot {
 
         frontLauncherServo = hardwareMap.get(Servo.class, "frontLauncherServo");
         backLauncherServo = hardwareMap.get(Servo.class, "backLauncherServo");
+
+        frontHoodServo = hardwareMap.get(Servo.class, "frontHoodServo");
+        backHoodServo = hardwareMap.get(Servo.class, "backHoodServo");
 
         frontIntakeMotor = hardwareMap.get(DcMotorEx.class, "frontIntakeMotor");
         backIntakeMotor = hardwareMap.get(DcMotorEx.class, "backIntakeMotor");
