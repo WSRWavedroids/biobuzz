@@ -2,10 +2,13 @@ package org.firstinspires.ftc.teamcode.Core.PuppetClasses;
 
 import static org.firstinspires.ftc.teamcode.Core.HiveSide.*;
 import static org.firstinspires.ftc.teamcode.Core.Robot.Alliance.*;
+import static org.firstinspires.ftc.teamcode.Core.Robot.FrontBack.BACK;
+import static org.firstinspires.ftc.teamcode.Core.Robot.FrontBack.FRONT;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
+import com.pedropathing.utils.Angle;
 
 import org.firstinspires.ftc.teamcode.Core.HiveSide;
 import org.firstinspires.ftc.teamcode.Core.Robot;
@@ -109,6 +112,21 @@ public class PuppetPedroPathingDriver implements PedroPathingDriver {
         }
 
         return Math.sqrt(Math.pow(x - hiveX, 2) + Math.pow(y - hiveY, 2));
+    }
+
+    @Override
+    public Robot.FrontBack findHiveFacingDirection() {
+        HiveSide side = findHiveZone();
+        double heading = PuppetPedroPathingDriver.heading;
+        if (side == SCORING) {
+            heading += Math.PI;
+        }
+        heading = Angle.normalize(heading);
+        if (heading >= 0) {
+            return FRONT;
+        } else {
+            return BACK;
+        }
     }
 
     @Override

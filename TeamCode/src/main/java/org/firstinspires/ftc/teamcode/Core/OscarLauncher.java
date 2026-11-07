@@ -128,8 +128,19 @@ public class OscarLauncher implements Launcher {
 
     private void startRevvingMotors() {
         firing = true;
-        frontTargetSpeed = findFrontMotorSpeed();
-        backTargetSpeed = findBackMotorSpeed();
+
+        if (robot.pedroPathingDriver.findHiveFacingDirection() == Robot.FrontBack.FRONT) {
+            frontTargetSpeed = findFrontMotorSpeed();
+            backTargetSpeed = findBackMotorSpeed();
+            robot.frontHoodServo.setPosition(findFrontHoodNectarPosition());
+            robot.backHoodServo.setPosition(findBackHoodNectarPosition());
+        } else {
+            frontTargetSpeed = findBackMotorSpeed();
+            backTargetSpeed = findFrontMotorSpeed();
+            robot.frontHoodServo.setPosition(findBackHoodNectarPosition());
+            robot.backHoodServo.setPosition(findFrontHoodNectarPosition());
+        }
+
         timerStartTime = robot.runtime.seconds();
         currentState = REV_MOTOR;
     }
@@ -145,8 +156,13 @@ public class OscarLauncher implements Launcher {
         robot.frontLauncherServo.setPosition(1);
         robot.backLauncherServo.setPosition(1);
 
-        robot.frontHoodServo.setPosition(findFrontHoodPosition());
-        robot.backHoodServo.setPosition(findBackHoodPosition());
+        if (robot.pedroPathingDriver.findHiveFacingDirection() == Robot.FrontBack.FRONT) {
+            robot.frontHoodServo.setPosition(findFrontHoodPollenPosition());
+            robot.backHoodServo.setPosition(findBackHoodPollenPosition());
+        } else {
+            robot.frontHoodServo.setPosition(findBackHoodPollenPosition());
+            robot.backHoodServo.setPosition(findFrontHoodPollenPosition());
+        }
 
         timerStartTime = robot.runtime.seconds();
         currentState = ADJUST_FOR_POLLEN;
@@ -164,6 +180,9 @@ public class OscarLauncher implements Launcher {
         return 500;
     }
 
-    private double findFrontHoodPosition() {return .9;}
-    private double findBackHoodPosition() {return .9;}
+    private double findFrontHoodNectarPosition() {return .8;}
+    private double findBackHoodNectarPosition() {return .8;}
+
+    private double findFrontHoodPollenPosition() {return .9;}
+    private double findBackHoodPollenPosition() {return .9;}
 }

@@ -88,7 +88,6 @@ public class Robot {
     public HiveTipDetector hiveTipDetector;
     public Intake intake;
     public Launcher launcher;
-    public PedroPathingDriver pedroDriver;
     public Limelight3A limelight;
     public PedroPathingDriver pedroPathingDriver;
     public Storage storage;
@@ -134,6 +133,10 @@ public class Robot {
         POLLEN
     }
 
+    public enum FrontBack {
+        FRONT, BACK
+    }
+
     public boolean scanningForTargetTag = false;
 
     public int limelightSideOffsetAngle = 0;
@@ -151,8 +154,8 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
-        frontLauncherWheels = hardwareMap.get(DcMotorEx.class, "frontLauncherWheel");
-        backLauncherWheels = hardwareMap.get(DcMotorEx.class, "backLauncherWheel");
+        frontLauncherWheels = hardwareMap.get(DcMotorEx.class, "frontLauncherMotor");
+        backLauncherWheels = hardwareMap.get(DcMotorEx.class, "backLauncherMotor");
 
         frontLauncherServo = hardwareMap.get(Servo.class, "frontLauncherServo");
         backLauncherServo = hardwareMap.get(Servo.class, "backLauncherServo");

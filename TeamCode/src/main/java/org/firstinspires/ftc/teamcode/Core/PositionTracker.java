@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import static org.firstinspires.ftc.teamcode.Core.HiveSide.AUDIENCE;
-import static org.firstinspires.ftc.teamcode.Core.HiveSide.NONE;
-import static org.firstinspires.ftc.teamcode.Core.HiveSide.SCORING;
-import static org.firstinspires.ftc.teamcode.Core.Robot.Alliance.BLUE;
+import static org.firstinspires.ftc.teamcode.Core.HiveSide.*;
+import static org.firstinspires.ftc.teamcode.Core.Robot.Alliance.*;
+import static org.firstinspires.ftc.teamcode.Core.Robot.FrontBack.*;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
+import com.pedropathing.utils.Angle;
 
 import org.firstinspires.ftc.teamcode.Interfaces.PedroPathingDriver;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
@@ -104,6 +104,22 @@ public class PositionTracker implements PedroPathingDriver {
         }
 
         return currentPose.distance(hivePose);
+    }
+
+    @Override
+    public Robot.FrontBack findHiveFacingDirection() {
+        HiveSide side = findHiveZone();
+        double heading = currentPose.heading();
+        if (side == SCORING) {
+            heading += Math.PI;
+        }
+        heading = Angle.normalize(heading);
+        if (heading >= 0) {
+            return FRONT;
+        } else {
+            return BACK;
+        }
+
     }
 
     @Override
