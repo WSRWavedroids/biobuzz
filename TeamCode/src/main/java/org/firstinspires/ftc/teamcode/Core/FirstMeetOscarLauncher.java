@@ -132,18 +132,6 @@ public class FirstMeetOscarLauncher implements Launcher {
     private void startRevvingMotors() {
         firing = true;
 
-        if (robot.pedroPathingDriver.findHiveFacingDirection() == Robot.FrontBack.FRONT) {
-            frontTargetSpeed = findFrontMotorSpeed();
-            backTargetSpeed = findBackMotorSpeed();
-            robot.frontHoodServo.setPosition(findFrontHoodNectarPosition());
-            robot.backHoodServo.setPosition(findBackHoodNectarPosition());
-        } else {
-            frontTargetSpeed = findBackMotorSpeed();
-            backTargetSpeed = findFrontMotorSpeed();
-            robot.frontHoodServo.setPosition(findBackHoodNectarPosition());
-            robot.backHoodServo.setPosition(findFrontHoodNectarPosition());
-        }
-
         timerStartTime = robot.runtime.seconds();
         currentState = REV_MOTOR;
     }
@@ -158,14 +146,6 @@ public class FirstMeetOscarLauncher implements Launcher {
     private void adjustForPollen() {
         robot.frontLauncherServo.setPosition(1);
         robot.backLauncherServo.setPosition(1);
-
-        if (robot.pedroPathingDriver.findHiveFacingDirection() == Robot.FrontBack.FRONT) {
-            robot.frontHoodServo.setPosition(findFrontHoodPollenPosition());
-            robot.backHoodServo.setPosition(findBackHoodPollenPosition());
-        } else {
-            robot.frontHoodServo.setPosition(findBackHoodPollenPosition());
-            robot.backHoodServo.setPosition(findFrontHoodPollenPosition());
-        }
 
         timerStartTime = robot.runtime.seconds();
         currentState = ADJUST_FOR_POLLEN;
