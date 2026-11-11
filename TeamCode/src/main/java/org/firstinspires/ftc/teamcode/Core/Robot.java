@@ -162,7 +162,7 @@ public class Robot {
         frontLauncherServo = hardwareMap.get(Servo.class, "frontLauncherServo");
         backLauncherServo = hardwareMap.get(Servo.class, "backLauncherServo");
 
-        flipperLift = hardwareMap.get(Servo.class, "flipperLift");
+        //flipperLift = hardwareMap.get(Servo.class, "flipperLift");
 
         frontHoodServo = hardwareMap.get(Servo.class, "frontHoodServo");
         backHoodServo = hardwareMap.get(Servo.class, "backHoodServo");
@@ -193,9 +193,9 @@ public class Robot {
 
         ballPathChain = new PuppetBallPathChain(this);
         elementPositionFinder = new PuppetElementPositionFinder(this);
-        hiveTipDetector = new HiveTipFinder(this);
-        intake = new OscarIntake(this);
-        launcher = new FirstMeetOscarLauncher(this);
+        hiveTipDetector = new PuppetHiveTipDetector(this);
+        intake = new PuppetIntake(this);
+        launcher = new PuppetLauncher(this);
         pedroPathingDriver = new PuppetPedroPathingDriver(this);
         storage = new PuppetStorage(this);
 

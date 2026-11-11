@@ -250,13 +250,25 @@ public class OscarTeleOp extends OpMode {
         // This function is very math-heavy.
         // Don't mess with it unless you REALLY know what you're doing.
         double leftY = -this.gamepad1.left_stick_y;
-        double rightX = this.gamepad1.right_stick_x;
-        double leftX = -this.gamepad1.left_stick_x;
+        double rightX = -this.gamepad1.right_stick_x;
+        double leftX = this.gamepad1.left_stick_x;
+
+        // TODO Decide if this is necessary (or the place to implement this)
+        if (Math.abs(leftX) < .25) {
+            leftX = 0;
+        }
+        if (Math.abs(leftY) < .25) {
+            leftY = 0;
+        }
+        if (Math.abs(rightX) < .25) {
+            rightX = 0;
+        }
+
 
         double[] motorPowers = new double[4];
 
-        motorPowers[0] = (leftY + leftX + rightX); // frontLeftDrive
-        motorPowers[1] = (leftY - leftX - rightX); // frontRightDrive
+        motorPowers[0] = (leftY - leftX - rightX); // frontLeftDrive
+        motorPowers[1] = (leftY + leftX + rightX); // frontRightDrive
         motorPowers[2] = (leftY + leftX - rightX); // backLeftDrive
         motorPowers[3] = (leftY - leftX + rightX); // backRightDrive
 
