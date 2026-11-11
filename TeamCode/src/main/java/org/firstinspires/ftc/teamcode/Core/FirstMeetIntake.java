@@ -33,13 +33,12 @@ public class FirstMeetIntake implements Intake {
     }
 
     @Override
-    public void update() {
-    }
+    public void update() {}
 
     @Override
     public void addTelemetry() {
         robot.telemetry.addLine("Intake:");
-        robot.telemetry.addData("Intake Motor", robot.frontIntakeMotor);
+        robot.telemetry.addData("Intake Motor Speed", robot.frontIntakeMotor.getVelocity());
         robot.telemetry.addLine();
     }
 }
