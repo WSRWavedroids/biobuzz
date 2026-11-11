@@ -30,6 +30,12 @@ public class FirstMeetOscarLauncher implements Launcher {
     private static final double NECTAR_FIRE_TIME = 1;
     private static final double POLLEN_FIRE_TIME = 1;
 
+    /**
+     * When we fire pollen, "0 degrees" is no longer straight up. This number is the offset, in
+     * degrees, required to find the temporary relative zero.
+     */
+    private static final double DEGREES_OFFSET_WHILE_POLLEN = 0; //TODO
+
     public FirstMeetOscarLauncher(Robot robot) {
         this.robot = robot;
         front = new ezPID(robot.frontLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
@@ -100,7 +106,7 @@ public class FirstMeetOscarLauncher implements Launcher {
                 }
                 break;
             case RESET:
-                robot.flipperLift.setPosition(000000);
+                robot.flipperLift.setPosition(0);
 
                 robot.frontLauncherServo.setPosition(0);
                 robot.backLauncherServo.setPosition(0);
@@ -132,13 +138,16 @@ public class FirstMeetOscarLauncher implements Launcher {
     private void startRevvingMotors() {
         firing = true;
 
+        robot.frontHoodServo.setPosition(findFrontHoodNectarPosition());
+        robot.backHoodServo.setPosition(findBackHoodNectarPosition());
+
         timerStartTime = robot.runtime.seconds();
         currentState = REV_MOTOR;
     }
 
 
     private void lift() {
-        robot.flipperLift.setPosition(00001);
+        robot.flipperLift.setPosition(1);
         timerStartTime = robot.runtime.seconds();
         currentState = LIFT;
     }
@@ -146,6 +155,9 @@ public class FirstMeetOscarLauncher implements Launcher {
     private void adjustForPollen() {
         robot.frontLauncherServo.setPosition(1);
         robot.backLauncherServo.setPosition(1);
+
+        robot.frontHoodServo.setPosition(findFrontHoodPollenPosition());
+        robot.backHoodServo.setPosition(findBackHoodPollenPosition());
 
         timerStartTime = robot.runtime.seconds();
         currentState = ADJUST_FOR_POLLEN;
@@ -157,15 +169,34 @@ public class FirstMeetOscarLauncher implements Launcher {
 
     private double findFrontMotorSpeed() {
         return 500;
-    } //TODO use limelight eventually
+    }
 
     private double findBackMotorSpeed() {
         return 500;
     }
 
-    private double findFrontHoodNectarPosition() {return .8;}
-    private double findBackHoodNectarPosition() {return .8;}
+    private double findFrontHoodNectarPosition() {return 1;}
+    private double findBackHoodNectarPosition() {
+        return angleToServoPosition(
+                findHoodAngle(0)
+        );
+    }
 
-    private double findFrontHoodPollenPosition() {return .9;}
-    private double findBackHoodPollenPosition() {return .9;}
+    private double findFrontHoodPollenPosition() {return 1;}
+    private double findBackHoodPollenPosition() {
+        return angleToServoPosition(
+            findHoodAngle(0) + DEGREES_OFFSET_WHILE_POLLEN
+        );
+    }
+
+
+    private static final double TUNED_SERVO_UNITS = 0.5;
+    private static final double TUNED_DEGREES = 60;
+    private double angleToServoPosition(double angleDegreesFromVertical) {
+        return (TUNED_DEGREES - angleDegreesFromVertical) * TUNED_SERVO_UNITS / TUNED_DEGREES;
+    }
+
+    private double findHoodAngle(double distance) {
+        return 30;
+    }
 }
