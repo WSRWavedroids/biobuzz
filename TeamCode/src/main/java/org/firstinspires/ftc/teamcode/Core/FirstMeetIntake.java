@@ -20,11 +20,13 @@ public class FirstMeetIntake implements Intake {
     @Override
     public void intake() {
         robot.frontIntakeMotor.setPower(1);
+        robot.frontLauncherWheels.setPower(.1);
     }
 
     @Override
     public void outtake() {
         robot.frontIntakeMotor.setPower(-1);
+        robot.frontLauncherWheels.setPower(-0.1);
     }
 
     @Override
