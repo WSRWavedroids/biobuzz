@@ -99,8 +99,8 @@ public class OscarLauncher implements Launcher {
                 }
                 break;
             case RESET:
-                robot.frontLauncherServo.setPosition(0);
-                robot.backLauncherServo.setPosition(0);
+                robot.leftLauncherServo.setPosition(0);
+                robot.rightLauncherServo.setPosition(0);
 
                 robot.frontHoodServo.setPosition(1);
                 robot.backHoodServo.setPosition(1);
@@ -153,8 +153,8 @@ public class OscarLauncher implements Launcher {
     }
 
     private void adjustForPollen() {
-        robot.frontLauncherServo.setPosition(1);
-        robot.backLauncherServo.setPosition(1);
+        robot.leftLauncherServo.setPosition(1);
+        robot.rightLauncherServo.setPosition(1);
 
         if (robot.pedroPathingDriver.findHiveFacingDirection() == Robot.FrontBack.FRONT) {
             robot.frontHoodServo.setPosition(findFrontHoodPollenPosition());

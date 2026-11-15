@@ -41,7 +41,7 @@ public class OscarTeleOp extends OpMode {
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
     private final FramerateCalculator fps = new FramerateCalculator(runtime);
-    private double speed = 0.75;
+    private double speed = 0.5;
 
     private boolean automatedDrive;
 
@@ -151,6 +151,9 @@ public class OscarTeleOp extends OpMode {
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 10);
         gamepad2.setLedColor(0, 0, 255, 10);
+
+
+        robot.flipperLift.setPosition(0.825);
 
         robot.enableBrakes();
     }
@@ -267,10 +270,10 @@ public class OscarTeleOp extends OpMode {
 
         double[] motorPowers = new double[4];
 
-        motorPowers[0] = (leftY - leftX - rightX); // frontLeftDrive
-        motorPowers[1] = (leftY + leftX + rightX); // frontRightDrive
-        motorPowers[2] = (leftY + leftX - rightX); // backLeftDrive
-        motorPowers[3] = (leftY - leftX + rightX); // backRightDrive
+        motorPowers[0] = (leftY - leftX - rightX) * speed; // frontLeftDrive
+        motorPowers[1] = (leftY + leftX + rightX) * speed; // frontRightDrive
+        motorPowers[2] = (leftY + leftX - rightX) * speed; // backLeftDrive
+        motorPowers[3] = (leftY - leftX + rightX) * speed; // backRightDrive
 
         setIndividualPowers(motorPowers);
     }

@@ -5,7 +5,6 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.*;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 
 import android.annotation.SuppressLint;
-import android.graphics.Camera;
 
 import com.bylazar.panels.Panels;
 import com.bylazar.telemetry.PanelsTelemetry;
@@ -39,7 +38,6 @@ import org.firstinspires.ftc.teamcode.Interfaces.Intake;
 import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 import org.firstinspires.ftc.teamcode.Interfaces.PedroPathingDriver;
 import org.firstinspires.ftc.teamcode.Interfaces.Storage;
-import org.firstinspires.ftc.vision.opencv.ColorRange;
 
 import java.util.List;
 
@@ -55,8 +53,8 @@ public class Robot {
     public DcMotorEx frontLauncherWheels;
     public DcMotorEx backLauncherWheels;
 
-    public Servo frontLauncherServo;
-    public Servo backLauncherServo;
+    public Servo leftLauncherServo;
+    public Servo rightLauncherServo;
 
     public Servo frontHoodServo;
     public Servo backHoodServo;
@@ -159,10 +157,10 @@ public class Robot {
         frontLauncherWheels = hardwareMap.get(DcMotorEx.class, "frontLauncherMotor");
         backLauncherWheels = hardwareMap.get(DcMotorEx.class, "backLauncherMotor");
 
-        frontLauncherServo = hardwareMap.get(Servo.class, "frontLauncherServo");
-        backLauncherServo = hardwareMap.get(Servo.class, "backLauncherServo");
+        leftLauncherServo = hardwareMap.get(Servo.class, "leftLauncherServo");
+        rightLauncherServo = hardwareMap.get(Servo.class, "rightLauncherServo");
 
-        //flipperLift = hardwareMap.get(Servo.class, "flipperLift");
+        flipperLift = hardwareMap.get(Servo.class, "flipperLift");
 
         frontHoodServo = hardwareMap.get(Servo.class, "frontHoodServo");
         backHoodServo = hardwareMap.get(Servo.class, "backHoodServo");
@@ -170,11 +168,11 @@ public class Robot {
         frontIntakeMotor = hardwareMap.get(DcMotorEx.class, "frontIntakeMotor");
         backIntakeMotor = hardwareMap.get(DcMotorEx.class, "backIntakeMotor");
 
-        frontColorSensorOne = hardwareMap.get(ColorSensor.class, "frontColorSensorOne");
+//        frontColorSensorOne = hardwareMap.get(ColorSensor.class, "frontColorSensorOne");
 //        frontColorSensorTwo = hardwareMap.get(ColorSensor.class, "frontColorSensorTwo");
 //        frontColorSensorThree = hardwareMap.get(ColorSensor.class, "frontColorSensorThree");
 //        frontColorSensorFour = hardwareMap.get(ColorSensor.class, "frontColorSensorFour");
-        backColorSensorOne = hardwareMap.get(ColorSensor.class, "backColorSensorOne");
+//        backColorSensorOne = hardwareMap.get(ColorSensor.class, "backColorSensorOne");
 //        backColorSensorTwo = hardwareMap.get(ColorSensor.class, "backColorSensorTwo");
 //        backColorSensorThree = hardwareMap.get(ColorSensor.class, "backColorSensorThree");
 //        backColorSensorFour = hardwareMap.get(ColorSensor.class, "backColorSensorFour");
@@ -194,8 +192,8 @@ public class Robot {
         ballPathChain = new PuppetBallPathChain(this);
         elementPositionFinder = new PuppetElementPositionFinder(this);
         hiveTipDetector = new PuppetHiveTipDetector(this);
-        intake = new PuppetIntake(this);
-        launcher = new PuppetLauncher(this);
+        intake = new FirstMeetIntake(this);
+        launcher = new FirstMeetLauncherInverted(this);
         pedroPathingDriver = new PuppetPedroPathingDriver(this);
         storage = new PuppetStorage(this);
 
@@ -208,6 +206,9 @@ public class Robot {
         frontRightDrive.setDirection(FORWARD);
         backLeftDrive.setDirection(REVERSE);
         backRightDrive.setDirection(FORWARD);
+
+        frontLauncherWheels.setDirection(REVERSE);
+        backLauncherWheels.setDirection(FORWARD);
 
         // This tells the motors to chill when we're not powering them.
         frontRightDrive.setZeroPowerBehavior(BRAKE);
@@ -237,6 +238,7 @@ public class Robot {
         storage.update();
 
         telemetry.update();
+        panelsTelemetry.update();
     }
 
     public void addEverythingToTelemetry() {

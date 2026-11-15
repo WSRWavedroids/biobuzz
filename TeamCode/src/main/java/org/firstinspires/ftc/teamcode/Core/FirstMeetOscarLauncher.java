@@ -4,11 +4,14 @@ import static org.firstinspires.ftc.teamcode.Core.FireMode.NOT_FIRING;
 import static org.firstinspires.ftc.teamcode.Core.FirstMeetOscarLauncher.LauncherState.*;
 
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
 import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 
 public class FirstMeetOscarLauncher implements Launcher {
     private final Robot robot;
-    private final ezPID front, back;
+    //private final ezPID front, back;
     enum LauncherState {
         STANDBY, WAIT_SECOND_FOR_SAFE, REV_MOTOR, LIFT, ADJUST_FOR_POLLEN, RESET
     }
@@ -19,10 +22,10 @@ public class FirstMeetOscarLauncher implements Launcher {
     private double frontTargetSpeed, backTargetSpeed = 0;
 
     private final int TICKS_PER_ROTATION = 28;
-    private final double p = 0.0005;
+    private final double p = 600;
     private final double i = 0;
     private final double d = 0.0;
-    private final double f = 0;
+    private final double f = 25;
     private final double KNEECAP = 1;
     private final double TOLERANCE = 50;
 
@@ -38,9 +41,10 @@ public class FirstMeetOscarLauncher implements Launcher {
 
     public FirstMeetOscarLauncher(Robot robot) {
         this.robot = robot;
-        front = new ezPID(robot.frontLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
-        back = new ezPID(robot.backLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
-
+//        front = new ezPID(robot.frontLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
+//        back = new ezPID(robot.backLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
+        robot.frontLauncherWheels.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(p, i, d, f));
+        robot.backLauncherWheels.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(p, i, d, f));
     }
 
     @Override
@@ -55,10 +59,6 @@ public class FirstMeetOscarLauncher implements Launcher {
 
     @Override
     public void update() {
-        front.runCalledPID(frontTargetSpeed);
-        back.runCalledPID(backTargetSpeed);
-
-
         switch (currentState) {
             case STANDBY:
                 switch (fireMode) {
@@ -91,7 +91,7 @@ public class FirstMeetOscarLauncher implements Launcher {
                 }
                 break;
             case REV_MOTOR:
-                if (front.withinTolerance() && back.withinTolerance()) {
+                if (Math.abs(robot.frontLauncherWheels.getVelocity() - frontTargetSpeed) <= TOLERANCE && Math.abs(robot.backLauncherWheels.getVelocity() - backTargetSpeed) <= TOLERANCE) {
                     lift();
                 }
                 break;
@@ -106,16 +106,18 @@ public class FirstMeetOscarLauncher implements Launcher {
                 }
                 break;
             case RESET:
-                robot.flipperLift.setPosition(0);
+                robot.flipperLift.setPosition(0.825);
 
-                robot.frontLauncherServo.setPosition(0);
-                robot.backLauncherServo.setPosition(0);
+                robot.leftLauncherServo.setPosition(0.5);
+                robot.rightLauncherServo.setPosition(0.5);
 
                 robot.frontHoodServo.setPosition(1);
                 robot.backHoodServo.setPosition(1);
 
-                frontTargetSpeed = 0;
+                frontTargetSpeed = 100;
                 backTargetSpeed = 0;
+                robot.frontLauncherWheels.setVelocity(100);
+                robot.backLauncherWheels.setVelocity(0);
 
                 currentState = STANDBY;
                 firing = false;
@@ -138,6 +140,14 @@ public class FirstMeetOscarLauncher implements Launcher {
     private void startRevvingMotors() {
         firing = true;
 
+        frontTargetSpeed = findFrontMotorSpeed();
+        backTargetSpeed = findBackMotorSpeed();
+
+        robot.frontLauncherWheels.setVelocity(frontTargetSpeed);
+        robot.backLauncherWheels.setVelocity(backTargetSpeed);
+
+
+
         robot.frontHoodServo.setPosition(findFrontHoodNectarPosition());
         robot.backHoodServo.setPosition(findBackHoodNectarPosition());
 
@@ -147,14 +157,14 @@ public class FirstMeetOscarLauncher implements Launcher {
 
 
     private void lift() {
-        robot.flipperLift.setPosition(1);
+        robot.flipperLift.setPosition(0);
         timerStartTime = robot.runtime.seconds();
         currentState = LIFT;
     }
 
     private void adjustForPollen() {
-        robot.frontLauncherServo.setPosition(1);
-        robot.backLauncherServo.setPosition(1);
+        robot.leftLauncherServo.setPosition(1);
+        robot.rightLauncherServo.setPosition(0);
 
         robot.frontHoodServo.setPosition(findFrontHoodPollenPosition());
         robot.backHoodServo.setPosition(findBackHoodPollenPosition());
@@ -168,18 +178,16 @@ public class FirstMeetOscarLauncher implements Launcher {
     }
 
     private double findFrontMotorSpeed() {
-        return 500;
+        return 700;
     }
 
     private double findBackMotorSpeed() {
-        return 500;
+        return 700;
     }
 
     private double findFrontHoodNectarPosition() {return 1;}
     private double findBackHoodNectarPosition() {
-        return angleToServoPosition(
-                findHoodAngle(0)
-        );
+        return 0.8;
     }
 
     private double findFrontHoodPollenPosition() {return 1;}
@@ -197,6 +205,6 @@ public class FirstMeetOscarLauncher implements Launcher {
     }
 
     private double findHoodAngle(double distance) {
-        return 30;
+        return 60;
     }
 }

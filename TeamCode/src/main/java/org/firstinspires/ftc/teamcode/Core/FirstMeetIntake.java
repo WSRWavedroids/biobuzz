@@ -1,12 +1,6 @@
 package org.firstinspires.ftc.teamcode.Core;
 
-import static org.firstinspires.ftc.teamcode.Core.OscarIntake.IntakeModes.*;
-
-import com.qualcomm.robotcore.hardware.ColorSensor;
-
 import org.firstinspires.ftc.teamcode.Interfaces.Intake;
-
-import java.util.ArrayList;
 
 public class FirstMeetIntake implements Intake {
 
@@ -20,18 +14,21 @@ public class FirstMeetIntake implements Intake {
     @Override
     public void intake() {
         robot.frontIntakeMotor.setPower(1);
-        robot.frontLauncherWheels.setPower(.1);
+        robot.frontLauncherWheels.setVelocity(100);
+
     }
 
     @Override
     public void outtake() {
-        robot.frontIntakeMotor.setPower(-1);
-        robot.frontLauncherWheels.setPower(-0.1);
+        robot.frontIntakeMotor.setPower(-0.5);
+        robot.frontLauncherWheels.setVelocity(-100);
+
     }
 
     @Override
     public void stop() {
         robot.frontIntakeMotor.setPower(0);
+        robot.frontLauncherWheels.setVelocity(100);
     }
 
     @Override
