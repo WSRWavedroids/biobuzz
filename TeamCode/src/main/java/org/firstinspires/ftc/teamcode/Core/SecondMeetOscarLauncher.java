@@ -96,7 +96,7 @@ public class SecondMeetOscarLauncher implements Launcher {
                 break;
                 */
             case RESET:
-                robot.flipperLift.setPosition(1);
+                robot.flipperLift.setPosition(0.75);
 
                 robot.frontHoodServo.setPosition(1);
                 robot.backHoodServo.setPosition(1);
@@ -134,7 +134,7 @@ public class SecondMeetOscarLauncher implements Launcher {
         robot.frontLauncherWheels.setVelocity(frontTargetSpeed);
         robot.backLauncherWheels.setVelocity(backTargetSpeed);
 
-        robot.backHoodServo.setPosition(0.22);
+        robot.backHoodServo.setPosition(0.15);
 
         timerStartTime = robot.runtime.seconds();
         currentState = REV_MOTOR;

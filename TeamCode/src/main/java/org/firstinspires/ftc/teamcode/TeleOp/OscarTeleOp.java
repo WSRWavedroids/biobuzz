@@ -41,7 +41,7 @@ public class OscarTeleOp extends OpMode {
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
     private final FramerateCalculator fps = new FramerateCalculator(runtime);
-    private double speed = 0.5;
+    private double speed = 1;
 
     private boolean automatedDrive;
 
@@ -153,7 +153,7 @@ public class OscarTeleOp extends OpMode {
         gamepad2.setLedColor(0, 0, 255, 10);
 
 
-        robot.flipperLift.setPosition(0.825);
+        robot.flipperLift.setPosition(0.8);
 
         robot.enableBrakes();
     }
@@ -180,6 +180,12 @@ public class OscarTeleOp extends OpMode {
 
         if (gamepad2.rightBumperWasPressed()) {
             robot.launcher.fire(FireMode.WAIT_FOR_SECOND_FOR_SAFE);
+        }
+
+        if (gamepad2.squareWasPressed()) {
+            robot.flipperLift.setPosition(0.7);
+        } else if (gamepad2.squareWasReleased()) {
+            robot.flipperLift.setPosition(0.75);
         }
 
         if (robot.controlMode == STANDARD_ROBOT_CENTRIC) {
