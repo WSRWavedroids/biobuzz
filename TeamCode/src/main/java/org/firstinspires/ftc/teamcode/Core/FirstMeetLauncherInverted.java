@@ -96,7 +96,8 @@ public class FirstMeetLauncherInverted implements Launcher {
                 break;
             case LIFT:
                 if (robot.runtime.seconds() - timerStartTime >= NECTAR_FIRE_TIME) {
-                    adjustForNectar();
+                    //adjustForNectar();
+                    currentState = RESET;
                 }
                 break;
             case ADJUST_FOR_NECTAR:

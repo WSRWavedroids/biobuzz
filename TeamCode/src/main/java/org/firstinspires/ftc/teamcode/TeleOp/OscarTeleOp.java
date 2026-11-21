@@ -253,7 +253,7 @@ public class OscarTeleOp extends OpMode {
         // This function is very math-heavy.
         // Don't mess with it unless you REALLY know what you're doing.
         double leftY = -this.gamepad1.left_stick_y;
-        double rightX = -this.gamepad1.right_stick_x;
+        double rightX = 2 * -this.gamepad1.right_stick_x;
         double leftX = this.gamepad1.left_stick_x;
 
         // TODO Decide if this is necessary (or the place to implement this)

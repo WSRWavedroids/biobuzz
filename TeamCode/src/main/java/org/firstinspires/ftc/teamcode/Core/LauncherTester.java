@@ -24,6 +24,7 @@ public class LauncherTester implements Launcher {
     public static double frontHoodPosition = 0.9;
     public static double backHoodPosition = 0.9;
     public static double flipperPosition = 1;
+    public static boolean stopLauncher = false;
     @Override
     public void fire(FireMode mode) {
 
@@ -32,13 +33,20 @@ public class LauncherTester implements Launcher {
     public boolean isFiring() {
         return isFiring;
     }
+
     @Override
     public void update() {
         robot.frontLauncherWheels.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(p, i, d, f));
         robot.backLauncherWheels.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(p, i, d, f));
 
-        robot.frontLauncherWheels.setVelocity(frontLauncherSpeed);
-        robot.backLauncherWheels.setVelocity(backLauncherSpeed);
+        if (stopLauncher) {
+            robot.frontLauncherWheels.setVelocity(0);
+            robot.backLauncherWheels.setVelocity(0);
+        } else {
+            robot.frontLauncherWheels.setVelocity(frontLauncherSpeed);
+            robot.backLauncherWheels.setVelocity(backLauncherSpeed);
+        }
+
 
         robot.leftLauncherServo.setPosition(launcherServoPosition);
         robot.rightLauncherServo.setPosition(1 - launcherServoPosition);

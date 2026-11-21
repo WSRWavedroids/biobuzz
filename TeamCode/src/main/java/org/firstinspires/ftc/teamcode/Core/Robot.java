@@ -19,7 +19,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -59,7 +61,7 @@ public class Robot {
     public Servo frontHoodServo;
     public Servo backHoodServo;
 
-    public Servo flipperLift;
+    public ServoImplEx flipperLift;
 
     public DcMotorEx frontIntakeMotor;
     public DcMotorEx backIntakeMotor;
@@ -160,7 +162,7 @@ public class Robot {
         leftLauncherServo = hardwareMap.get(Servo.class, "leftLauncherServo");
         rightLauncherServo = hardwareMap.get(Servo.class, "rightLauncherServo");
 
-        flipperLift = hardwareMap.get(Servo.class, "flipperLift");
+        flipperLift = hardwareMap.get(ServoImplEx.class, "flipperServo");
 
         frontHoodServo = hardwareMap.get(Servo.class, "frontHoodServo");
         backHoodServo = hardwareMap.get(Servo.class, "backHoodServo");
@@ -193,7 +195,7 @@ public class Robot {
         elementPositionFinder = new PuppetElementPositionFinder(this);
         hiveTipDetector = new PuppetHiveTipDetector(this);
         intake = new FirstMeetIntake(this);
-        launcher = new FirstMeetLauncherInverted(this);
+        launcher = new LauncherTester(this);
         pedroPathingDriver = new PuppetPedroPathingDriver(this);
         storage = new PuppetStorage(this);
 
@@ -215,6 +217,8 @@ public class Robot {
         backLeftDrive.setZeroPowerBehavior(BRAKE);
         backRightDrive.setZeroPowerBehavior(BRAKE);
         frontLeftDrive.setZeroPowerBehavior(BRAKE);
+
+        flipperLift.setPwmRange(new PwmControl.PwmRange(500, 2500));
 
 
         //This is new..
