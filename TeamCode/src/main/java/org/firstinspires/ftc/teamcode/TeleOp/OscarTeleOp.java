@@ -342,6 +342,8 @@ public class OscarTeleOp extends OpMode {
         telemetry.addData("Last saved Alliance", blackboard.get(ALLIANCE_KEY));
         telemetry.addData("Position grab successful", blackboardPositioningSucessful);
 
+        robot.addEverythingToTelemetry();
+
         telemetry.update();
     }
 

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Interfaces.Launcher;
 
 public class SecondMeetOscarLauncher implements Launcher {
     private final Robot robot;
-    //private final ezPID front, back;
+
     enum LauncherState {
         STANDBY, WAIT_SECOND_FOR_SAFE, REV_MOTOR, LIFT, ADJUST_FOR_POLLEN, RESET
     }
@@ -20,28 +20,17 @@ public class SecondMeetOscarLauncher implements Launcher {
     private FireMode fireMode = NOT_FIRING;
     private double frontTargetSpeed, backTargetSpeed = 0;
 
-    private final int TICKS_PER_ROTATION = 28;
     private final double p = 600;
     private final double i = 0;
     private final double d = 0.0;
     private final double f = 25;
-    private final double KNEECAP = 1;
-    private final double TOLERANCE = 50;
+    private final double TOLERANCE = 20;
 
 
     private static final double NECTAR_FIRE_TIME = 1;
-    private static final double POLLEN_FIRE_TIME = 1;
-
-    /**
-     * When we fire pollen, "0 degrees" is no longer straight up. This number is the offset, in
-     * degrees, required to find the temporary relative zero.
-     */
-    private static final double DEGREES_OFFSET_WHILE_POLLEN = 0; //TODO
 
     public SecondMeetOscarLauncher(Robot robot) {
         this.robot = robot;
-//        front = new ezPID(robot.frontLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
-//        back = new ezPID(robot.backLauncherWheels, TICKS_PER_ROTATION, p, i, d, f, KNEECAP, TOLERANCE, ezPID.movementType.SPEED);
         robot.frontLauncherWheels.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(p, i, d, f));
         robot.backLauncherWheels.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(p, i, d, f));
     }
@@ -107,7 +96,7 @@ public class SecondMeetOscarLauncher implements Launcher {
                 break;
                 */
             case RESET:
-                robot.flipperLift.setPosition(0.825);
+                robot.flipperLift.setPosition(1);
 
                 robot.frontHoodServo.setPosition(1);
                 robot.backHoodServo.setPosition(1);
@@ -132,6 +121,7 @@ public class SecondMeetOscarLauncher implements Launcher {
         robot.telemetry.addData("Front Wheel Target Velocity", frontTargetSpeed);
         robot.telemetry.addData("Back Wheel Velocity", robot.backLauncherWheels.getVelocity());
         robot.telemetry.addData("Back Wheel Target Velocity", backTargetSpeed);
+        robot.telemetry.addData("Hood Position", robot.backHoodServo.getPosition());
         robot.telemetry.addLine();
     }
 
@@ -144,9 +134,6 @@ public class SecondMeetOscarLauncher implements Launcher {
         robot.frontLauncherWheels.setVelocity(frontTargetSpeed);
         robot.backLauncherWheels.setVelocity(backTargetSpeed);
 
-
-
-        robot.frontHoodServo.setPosition(findFrontHoodNectarPosition());
         robot.backHoodServo.setPosition(0.22);
 
         timerStartTime = robot.runtime.seconds();
@@ -170,18 +157,6 @@ public class SecondMeetOscarLauncher implements Launcher {
 
     private double findBackMotorSpeed() {
         return 650;
-    }
-
-    private double findFrontHoodNectarPosition() {return 1;}
-    private double findBackHoodNectarPosition() {
-        return 0.8;
-    }
-
-    private double findFrontHoodPollenPosition() {return 1;}
-    private double findBackHoodPollenPosition() {
-        return angleToServoPosition(
-            findHoodAngle(0) + DEGREES_OFFSET_WHILE_POLLEN
-        );
     }
 
 

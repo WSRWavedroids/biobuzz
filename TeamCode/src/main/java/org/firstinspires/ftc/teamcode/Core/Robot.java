@@ -195,7 +195,7 @@ public class Robot {
         elementPositionFinder = new PuppetElementPositionFinder(this);
         hiveTipDetector = new PuppetHiveTipDetector(this);
         intake = new FirstMeetIntake(this);
-        launcher = new LauncherTester(this);
+        launcher = new SecondMeetOscarLauncher(this);
         pedroPathingDriver = new PuppetPedroPathingDriver(this);
         storage = new PuppetStorage(this);
 
